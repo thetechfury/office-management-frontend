@@ -477,3 +477,40 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+// import { useState } from 'react';
+// import { FaHome, FaUser, FaCog } from 'react-icons/fa';
+//
+// const Sidebar = () => {
+//   const [isExpanded, setIsExpanded] = useState(true);
+//
+//   return (
+//     <div className={`flex ${isExpanded ? 'w-64' : 'w-20'} h-screen bg-gray-800 transition-width duration-300`}>
+//       <div className="flex flex-col justify-between flex-grow">
+//         <div>
+//           <button
+//             onClick={() => setIsExpanded(!isExpanded)}
+//             className="p-4 text-white focus:outline-none"
+//           >
+//             {isExpanded ? '<' : '>'}
+//           </button>
+//           <nav className="flex flex-col mt-4">
+//             <a href="#" className="flex items-center p-4 text-white hover:bg-gray-700">
+//               <FaHome className="mr-4" />
+//               {isExpanded && <span>Home</span>}
+//             </a>
+//             <a href="#" className="flex items-center p-4 text-white hover:bg-gray-700">
+//               <FaUser className="mr-4" />
+//               {isExpanded && <span>Profile</span>}
+//             </a>
+//             <a href="#" className="flex items-center p-4 text-white hover:bg-gray-700">
+//               <FaCog className="mr-4" />
+//               {isExpanded && <span>Settings</span>}
+//             </a>
+//           </nav>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+//
+// export default Sidebar;

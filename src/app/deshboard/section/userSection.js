@@ -1,4 +1,4 @@
-import {FaRegBell, FaSearch} from 'react-icons/fa';
+import {FaCheck, FaRegBell, FaSearch, FaTimes} from 'react-icons/fa';
 import {BiGridAlt} from 'react-icons/bi';
 import {HiArrowTrendingUp} from 'react-icons/hi';
 import {useEffect, useState} from "react";
@@ -12,98 +12,52 @@ const UserSection = () => {
     const [selectSignUp, setSelectSignUp] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const dispatch = useDispatch();
-    const {user} = useSelector(state => state.auth);
-    const loading = useSelector((state) => state.auth.loading);
-    const error = useSelector((state) => state.auth.error);
+    const [selectedItems, setSelectedItems] = useState([]);
+    const {users, loading, error} = useSelector((state) => state.auth);
 
-    // function getCookieValue(cookieName) {
-    //     console.log('cookie:', document.cookie)
-    //     const cookies = document.cookie.split(';');
-    //     for (let i = 0; i < cookies.length; i++) {
-    //         const cookie = cookies[i].trim();
-    //         if (cookie.startsWith(cookieName + '=')) {
-    //             return cookie.split('=')[1];
-    //         }
-    //     }
-    //     return null;
-    // }
-    //
-    // const csrftoken = getCookieValue('csrftoken');
-    // const sessionid = getCookieValue('sessionid');
-    //
-    // console.log('csrftoken:', csrftoken);
-    // console.log('sessionid:', sessionid);
-    // useEffect(() => {
-    //
-    //     dispatch(getUser());
-    // }, [dispatch]);
+    useEffect(() => {
+        dispatch(getUser());
+    }, [dispatch]);
 
-    const users = [
-        {
-            id: 1,
-            fullName: 'Amanda Harvey',
-            status: 'Successful',
-            type: 'Unassigned',
-            email: 'amanda@example.com',
-            signedUp: '1 year ago',
-            userId: '67989'
-        },
-        {
-            id: 2,
-            fullName: 'Anne Richard',
-            status: 'Successful',
-            type: 'Subscription',
-            email: 'anne@example.com',
-            signedUp: '6 months ago',
-            userId: '67326'
-        },
-        {
-            id: 3,
-            fullName: 'David Harrison',
-            status: 'Overdue',
-            type: 'Non-subscription',
-            email: 'david@example.com',
-            signedUp: '6 months ago',
-            userId: '55821'
-        },
-        {
-            id: 4,
-            fullName: 'Salman Harrison',
-            status: 'Pending',
-            type: 'Non-subscription',
-            email: 'salman@example.com',
-            signedUp: '1 Year ago',
-            userId: '55824'
-        },
-        {
-            id: 5,
-            fullName: 'Junaid Harrison',
-            status: 'Pending',
-            type: 'Non-subscription',
-            email: 'junaid@example.com',
-            signedUp: '6 months ago',
-            userId: '55825'
-        }
-    ];
+    // const { number_of_active_users, total_users, total_teams, active_user_percentage, users=[], loading, error } = users;
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
     const filteredUsers = users.filter((user) => {
-        const statusMatch = selectedStatus
-            ? user.status.toLowerCase() === selectedStatus.toLowerCase()
-            : true;
-        const signUpMatch = selectSignUp
-            ? user.signedUp.toLowerCase() === selectSignUp.toLowerCase()
-            : true;
-        const searchMatch = searchTerm
-            ? Object.values(user)
-                .join(' ')
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase())
-            : true;
+        const statusMatch = selectedStatus ? user.is_active.toString() === selectedStatus : true;
+        const signUpMatch = selectSignUp ? new Date(user.date_joined).getFullYear().toString() === selectSignUp : true;
+        const searchMatch = searchTerm ? Object.values(user)
+            .join(' ')
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) : true;
 
         return statusMatch && signUpMatch && searchMatch;
     });
+    const handleCheckboxChange = (userId) => {
+        const selectedIndex = selectedItems.indexOf(userId);
+        if (selectedIndex === -1) {
+            setSelectedItems([...selectedItems, userId]);
+        } else {
+            const updatedSelectedItems = [...selectedItems];
+            updatedSelectedItems.splice(selectedIndex, 1);
+            setSelectedItems(updatedSelectedItems);
+        }
+    };
 
-    return (
-        <div className="px-4 sm:px-6 lg:px-8 pb-4">
+    const handleDeleteSelected = () => {
+        // Handle deletion logic here based on selectedItems array
+        console.log('Deleting selected items:', selectedItems);
+        // Reset selectedItems state after deletion
+        setSelectedItems([]);
+    };
+
+    return (<div className="px-4 sm:px-6 lg:px-8 pb-4">
             <div className="card shadow-md hover:shadow-lg h-full border border-inherit rounded-xl py-4">
                 {/* Header */}
                 <div className="pb-4 px-4">
@@ -111,22 +65,23 @@ const UserSection = () => {
                         <div className="w-full md:w-auto">
                             <div className="flex justify-between items-center">
                                 <h5>Users</h5>
-                                {/* Datatable Info */}
-                                <div id="datatableCounterInfo" className="hidden">
-                                    <div className="flex items-center">
-                                        <span className="text-sm mr-3">
-                                          <span id="datatableCounter">0</span>
-                                          Selected
-                                        </span>
-                                        <a className="btn btn-sm btn-outline-danger" href="#">
-                                            <i className="tio-delete-outlined"/> Delete
-                                        </a>
-                                    </div>
-                                </div>
-                                {/* End Datatable Info */}
                             </div>
                         </div>
-                        <div className="w-auto">
+                        <div className="w-auto flex items-center">
+                            <div className="flex items-center">
+                                <span className="text-sm mr-3">
+                                    <span>{selectedItems.length}</span> Selected
+                                </span>
+                                {selectedItems.length > 0 && (
+                                    <button
+                                        className="btn btn-sm btn-outline-danger"
+                                        onClick={handleDeleteSelected}
+                                    >
+                                        <i className="tio-delete-outlined"/> Delete
+                                    </button>
+                                )}
+                            </div>
+
                             {/* Filter */}
                             <div className="flex flex-wrap items-center">
                                 <div className="w-auto">
@@ -138,10 +93,9 @@ const UserSection = () => {
                                             value={selectedStatus}
                                             onChange={(e) => setSelectedStatus(e.target.value)}
                                         >
-                                            <option value="">All</option>
-                                            <option value="successful">Successful</option>
-                                            <option value="overdue">Overdue</option>
-                                            <option value="pending">Pending</option>
+                                        <option value="">All</option>
+                                            <option value="true">Active</option>
+                                            <option value="false">Inactive</option>
                                         </select>
                                         {/* End Select */}
                                     </div>
@@ -155,8 +109,8 @@ const UserSection = () => {
                                             onChange={(e) => setSelectSignUp(e.target.value)}
                                         >
                                             <option value="">All</option>
-                                            <option value="1 year ago">1 year ago</option>
-                                            <option value="6 months ago">6 months ago</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
                                         </select>
                                         {/* End Select */}
                                     </div>
@@ -169,8 +123,7 @@ const UserSection = () => {
                                             </div>
                                             <input
                                                 style={{
-                                                    outline: 'none',
-                                                    boxShadow: 'none',
+                                                    outline: 'none', boxShadow: 'none',
                                                 }}
                                                 type="search"
                                                 className="border-0 focus:border-b "
@@ -210,10 +163,10 @@ const UserSection = () => {
                             </th>
                             <th className="pl-8 py-2">Full name</th>
                             <th className="pl-8 py-2">Status</th>
-                            <th className="pl-8 py-2">Type</th>
+                            <th className="pl-8 py-2">Role</th>
                             <th className="pl-8 py-2">Email</th>
-                            <th className="pl-8 py-2">Signed up</th>
-                            <th className="pl-8 py-2">User ID</th>
+                            <th className="pl-8 py-2">Date Joined</th>
+                            <th className="pl-8 py-2">USER ID</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -221,10 +174,17 @@ const UserSection = () => {
                             <tr key={user.id}>
                                 <td className="px-8 py-2">
                                     <div className="custom-control custom-checkbox">
-                                        <input type="checkbox" className="custom-control-input"
-                                               id={`usersDataCheck${user.id}`}/>
-                                        <label className="custom-control-label" htmlFor={`usersDataCheck${user.id}`}/>
-                                    </div>
+                                        <input
+                                            type="checkbox"
+                                            className="custom-control-input"
+                                            id={`usersDataCheck${user.id}`}
+                                            onChange={() => handleCheckboxChange(user.id)}
+                                            checked={selectedItems.includes(user.id)}
+                                        />
+                                        <label
+                                            className="custom-control-label"
+                                            htmlFor={`usersDataCheck${user.id}`}
+                                        /></div>
                                 </td>
                                 <td className="px-8 py-2">
                                     <a className="flex items-center" href="./user-profile.html">
@@ -236,21 +196,25 @@ const UserSection = () => {
                                             />
                                         </div>
                                         <div className="media-body">
-                  <span className="text-primary mb-0">
-                    {user.fullName}
-                  </span>
+                                          <span className="text-primary mb-0">
+                                            {user.full_name}
+                                          </span>
                                         </div>
                                     </a>
                                 </td>
-                                <td className="px-8 py-2">
-                      <span
-                          className={`inline-block w-2.5 h-2.5 ${user.status === 'Successful' ? 'bg-success' : 'bg-danger'} rounded-full mr-1.5`}/>
-                                    {user.status}
+                                <td>
+                                    <div className="flex items-center justify-center mr-[40px]">
+                                        {user.is_active ? (
+                                            <FaCheck className="text-green-500"/>
+                                        ) : (
+                                            <FaTimes className="text-red-500"/>
+                                        )}
+                                    </div>
                                 </td>
-                                <td className="px-8 py-2">{user.type}</td>
+                                <td className="px-8 py-2">{user.role}</td>
                                 <td className="px-8 py-2">{user.email}</td>
-                                <td className="px-8 py-2">{user.signedUp}</td>
-                                <td className="px-8 py-2">{user.userId}</td>
+                                <td className="px-8 py-2">{user.date_joined}</td>
+                                <td className="px-8 py-2">{user.id}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -268,17 +232,15 @@ const UserSection = () => {
                                     id="datatableEntries"
                                     className="js-select2-custom"
                                     data-hs-select2-options='{
-                      "minimumResultsForSearch": "Infinity",
-                      "customClass": "custom-select custom-select-sm custom-select-borderless",
-                      "dropdownAutoWidth": true,
-                      "width": true
-                    }'
+                                        "minimumResultsForSearch": "Infinity",
+                                        "customClass": "custom-select custom-select-sm custom-select-borderless",
+                                        "dropdownAutoWidth": true,
+                                        "width": true
+                                    }'
                                 >
                                     <option value={4}>4</option>
                                     <option value={6}>6</option>
-                                    <option value={8} selected="">
-                                        8
-                                    </option>
+                                    <option value={8}>8</option>
                                     <option value={12}>12</option>
                                 </select>
                                 {/* End Select */}
@@ -298,8 +260,7 @@ const UserSection = () => {
                 </div>
                 {/* End Footer */}
             </div>
-        </div>
-
-    )
+        </div>);
 };
+
 export default UserSection;

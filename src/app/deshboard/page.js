@@ -1,35 +1,25 @@
 'use client'
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useRouter} from "next/navigation";
 import {useEffect} from "react";
 import {FaUserPlus} from "react-icons/fa";
 import {Chart} from 'chart.js/auto';
-import {getUser} from "@/app/slices/authSlice";
 import LineChartSection from "@/app/deshboard/section/lineChartSection";
 import BarChartSection from "@/app/deshboard/section/barChartSection";
 import UserSection from "@/app/deshboard/section/userSection";
 
 
 export default function Deshboard() {
-    const {user} = useSelector(state => state.auth);
+    const {token} = useSelector(state => state.auth);
     const router = useRouter();
-    const dispatch = useDispatch();
-
 
     useEffect(() => {
-        if (!user) {
+        if (!token) {
             setTimeout(() => {
                 router.push('../signin'); // Redirect to dashboard if already logged in
             }, 100);
-
         }
-    }, [user, router]);
-    //
-    // useEffect(() => {
-    //
-    //     dispatch(getUser());
-    //
-    // }, [dispatch]);
+    }, [token, router]);
 
 
     return (

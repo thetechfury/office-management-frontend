@@ -6,7 +6,6 @@ import {useSelector} from "react-redux";
 
 const Layout = ({ children }) => {
      const { user } = useSelector((state) => state.auth);
-      console.log("User state:", user);
   return (
     <div>
         {user && <Navbar/>}
