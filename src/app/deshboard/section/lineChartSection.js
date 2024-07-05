@@ -1,7 +1,17 @@
 import Card from "@/app/components/card/card";
 import TotalUserChart from "@/app/components/chart/totaluserChart";
+import {useDispatch, useSelector} from "react-redux";
+import {getUser} from "@/app/slices/authSlice";
+import {useEffect} from "react";
 
 const LineChartSection = () => {
+    const dispatch = useDispatch();
+    const {totalUsers} = useSelector((state) => state.auth);
+    const {totalTeams} = useSelector((state) => state.auth);
+    const {activeUsers} = useSelector((state) => state.auth);
+    const {activeUserPtg} = useSelector((state) => state.auth);
+
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto px-4 sm:px-6 lg:px-8">
             {/* Total Users Card */}
@@ -10,7 +20,7 @@ const LineChartSection = () => {
                     <h6 className="card-subtitle">Total Users</h6>
                     <div className="flex items-center">
                         <div className="w-1/2">
-                            <span className="text-2xl font-bold">72,540</span>
+                            <h2 className="hover:text-blue-600">{totalUsers}</h2>
                         </div>
                         <div className="">
                             <div className="relative h-[6rem]">
@@ -28,10 +38,10 @@ const LineChartSection = () => {
             {/* Sessions Card */}
             <div className="mb-3 lg:mb-5">
                 <Card>
-                    <h6 className="card-subtitle">Sessions</h6>
+                    <h6 className="card-subtitle">Total Teams</h6>
                     <div className="flex items-center">
                         <div className="w-1/2">
-                            <h2 className="hover:text-blue-600">29.4%</h2>
+                            <h2 className="hover:text-blue-600">{totalTeams}</h2>
                         </div>
                         <div className="">
                             <div className="relative h-[6rem]">
@@ -49,10 +59,10 @@ const LineChartSection = () => {
             {/* Avg. Click Rate Card */}
             <div className="mb-3 lg:mb-5">
                 <Card>
-                    <h6 className="card-subtitle">Avg. Click Rate</h6>
+                    <h6 className="card-subtitle">Active Users</h6>
                     <div className="flex items-center">
                         <div className="w-1/2">
-                            <h2 className="hover:text-blue-600">56.8%</h2>
+                            <h2 className="hover:text-blue-600">{activeUsers}</h2>
                         </div>
                         <div className="">
                             <div className="relative h-[6rem]">
@@ -69,10 +79,10 @@ const LineChartSection = () => {
             {/* Pageviews Card */}
             <div className="mb-3 lg:mb-5">
                 <Card>
-                    <h6 className="card-subtitle">Pageviews</h6>
+                    <h6 className="card-subtitle">Active Users percentage</h6>
                     <div className="flex items-center">
                         <div className="w-1/2">
-                            <h2 className="hover:text-blue-600">92,913</h2>
+                            <h2 className="hover:text-blue-600">{activeUserPtg}</h2>
                         </div>
                         <div className="">
                             <div className="relative z-[-10] h-[6rem]">
