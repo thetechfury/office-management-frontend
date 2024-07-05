@@ -6,6 +6,7 @@ import Image from "next/image";
 import userImg from "@/app/assets/images/img6.jpg"
 import {useDispatch, useSelector} from "react-redux";
 import {getUser, deleteUser} from "@/app/slices/authSlice";
+import Link from "next/link";
 
 const UserSection = () => {
     const [selectedStatus, setSelectedStatus] = useState('');
@@ -233,7 +234,7 @@ const UserSection = () => {
                                         /></div>
                                 </td>
                                 <td className="px-8 py-2">
-                                    <a className="flex items-center" href="./user-profile.html">
+                                    <Link className="flex items-center" href="/">
                                         <div className="w-8 h-8 rounded-full mr-2">
                                             <Image
                                                 className="w-full h-full rounded-full"
@@ -246,7 +247,7 @@ const UserSection = () => {
                                             {user.full_name}
                                           </span>
                                         </div>
-                                    </a>
+                                    </Link>
                                 </td>
                                 <td>
                                     <div className="flex items-center justify-center mr-[40px]">
