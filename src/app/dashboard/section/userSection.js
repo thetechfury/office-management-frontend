@@ -1,12 +1,12 @@
 import {FaCheck, FaRegBell, FaSearch, FaTimes, FaTrash} from 'react-icons/fa';
-import {BiGridAlt} from 'react-icons/bi';
-import {HiArrowTrendingUp} from 'react-icons/hi';
 import {useEffect, useState} from "react";
 import Image from "next/image";
 import userImg from "@/app/assets/images/img6.jpg"
 import {useDispatch, useSelector} from "react-redux";
-import {getUser, deleteUser} from "@/app/slices/authSlice";
+import {getUser} from "@/app/slices/authSlice";
 import Link from "next/link";
+// import {getUser} from "@/app/api/getUserApi";
+import {deleteUser} from "@/app/api/deleteUserApi";
 
 const UserSection = () => {
     const [selectedStatus, setSelectedStatus] = useState('');
@@ -14,7 +14,7 @@ const UserSection = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const dispatch = useDispatch();
     const [selectedItems, setSelectedItems] = useState([]);
-    const {users, loading, error} = useSelector((state) => state.auth);
+    const {users, loading, error} = useSelector(state => state.auth);
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -31,18 +31,14 @@ const UserSection = () => {
     if (error) {
         return <div>Error: {error}</div>;
     }
-
-    // Filtered users based on search criteria
-    const filteredUsers = users.filter((user) => {
+        // Ensure users is an array before calling filter
+    const filteredUsers = Array.isArray(users) ? users.filter((user) => {
         const statusMatch = selectedStatus ? user.is_active.toString() === selectedStatus : true;
         const signUpMatch = selectSignUp ? new Date(user.date_joined).getFullYear().toString() === selectSignUp : true;
-        const searchMatch = searchTerm ? Object.values(user)
-            .join(' ')
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) : true;
-
+        const searchMatch = searchTerm ? Object.values(user).some(value => value && value.toString().toLowerCase().includes(searchTerm.toLowerCase())) : true;
         return statusMatch && signUpMatch && searchMatch;
-    });
+    }) : [];
+
 
     // Pagination logic
     const indexOfLastUser = currentPage * usersPerPage;
@@ -262,6 +258,7 @@ const UserSection = () => {
                                 <td className="px-8 py-2">{user.email}</td>
                                 <td className="px-8 py-2">{user.date_joined}</td>
                                 <td className="px-8 py-2">{user.id}</td>
+                                <Link href='../../pages/usersprofiles/'></Link>
                             </tr>
                         ))}
                         </tbody>

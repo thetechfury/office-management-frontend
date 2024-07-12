@@ -7,8 +7,9 @@ import Input from "@/app/components/input";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {useDispatch, useSelector} from 'react-redux';
-import {login} from '../slices/authSlice';
+// import {login} from '../slices/authSlice';
 import {useRouter} from 'next/navigation'
+import {login} from "@/app/api/authentication";
 
 const schema = Yup.object().shape({
     email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -27,7 +28,7 @@ export default function SignIn() {
         onSubmit: async (values) => {
             const result = await dispatch(login(values));
             if (login.fulfilled.match(result)) {
-                router.push('../deshboard'); // Redirect to dashboard upon successful login
+                router.push('../dashboard'); // Redirect to dashboard upon successful login
             }
         },
         validationSchema: schema,

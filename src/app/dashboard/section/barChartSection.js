@@ -8,6 +8,7 @@ import mailchimpImg from "@/app/assets/svg/mailchimp.svg";
 import webdevImg from "@/app/assets/svg/google-webdev.svg";
 import MonthlyExpenseChart from "@/app/components/chart/monthlyExpenseChart";
 import {useEffect, useRef, useState} from "react";
+import {CiShare2} from "react-icons/ci";
 
 const BarChartSection = () => {
     const dropdownRef = useRef(null);
@@ -49,29 +50,29 @@ const BarChartSection = () => {
                             {isDropdownOpen && (<div
                                 className="absolute right-0 w-90 py-4 mt-2 border-1 border-inherit rounded-lg  bg-white dark:bg-gray-700 rounded-lg shadow-custom-shadow">
                                     <span
-                                        className="uppercase tracking-wide text-80p font-semibold py-2 px-4">Settings</span>
+                                        className="uppercase tracking-wide text-80p py-2 px-4">Settings</span>
                                 <Link
                                     className="flex items-center gap-2 xs-custom w-full py-1.5 px-6 clear-both font-normal text-black  whitespace-nowrap bg-transparent border-0 hover:bg-gray-100"
                                     href="#">
-                                    <FaShareAlt className="text-gray-400"/> Share chart
+                                    <CiShare2 className="text-gray-500"/> Share chart
                                 </Link>
                                 <Link
                                     className="flex items-center hover:bg-gray-100 gap-2 xs-custom w-full py-1.5 px-6 clear-both font-normal text-black whitespace-nowrap bg-transparent border-0"
                                     href="#">
-                                    <FaDownload className="text-gray-400"/> Download
+                                    <FaDownload className="text-gray-500"/> Download
                                 </Link>
                                 <Link
                                     className="flex items-center hover:bg-gray-100 gap-2 xs-custom w-full py-1.5 px-6 clear-both font-normal text-black whitespace-nowrap bg-transparent border-0"
                                     href="#">
-                                    <HiArrowTrendingUp className="text-gray-400"/> Connect other apps
+                                    <HiArrowTrendingUp className="text-gray-500"/> Connect other apps
                                 </Link>
                                 <div className="h-0 my-2 overflow-hidden border-t border-t-custom-gray"></div>
                                 <span
-                                    className="uppercase tracking-wide text-80p font-semibold py-2 px-4">Feedback</span>
+                                    className="uppercase tracking-wide text-80p py-2 px-4">Feedback</span>
                                 <Link
                                     className="flex items-center hover:bg-gray-100 gap-2 xs-custom w-full py-1.5 px-6 clear-both font-normal text-black whitespace-nowrap bg-transparent border-0"
                                     href="#">
-                                    <TiMessages className="text-gray-400"/> Report
+                                    <TiMessages className="text-gray-500"/> Report
                                 </Link>
                             </div>)}
                         </div>

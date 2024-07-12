@@ -52,6 +52,9 @@ h5 {
 .bg-custom-image{
     background-image: url("assets/svg/abstract-bg-4.svg");
 }
+.bg-profile-image{
+    background-image: url("assets/images/img1.jpg");
+}
 select:focus {
     border: none!important;
     outline: none;
@@ -61,4 +64,10 @@ select:focus {
 select{
     border: none!important;
     font-size: .8125rem;
+}
+.border-custom {
+  border: .0625rem solid rgba(231, 234, 243, .7);
+}
+.shadow-custom {
+  box-shadow: 0 6px 12px rgba(140, 152, 164, .075);
 }

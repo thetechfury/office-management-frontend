@@ -11,8 +11,9 @@ import Image from "next/image";
 import profileImg from "../../assets/images/img6.jpg"
 import {BiGridAlt} from "react-icons/bi";
 import {HiArrowTrendingUp} from "react-icons/hi2";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {logout} from "@/app/slices/authSlice";
+// import {getUserProfile} from "@/app/api/getUserProfileApi";
 import {useRouter} from "next/navigation";
 import logo from "@/app/assets/svg/logo.svg";
 
@@ -26,10 +27,14 @@ const Topbar = () => {
     const dropdownRef = useRef(null);
     const router = useRouter();
     const dispatch = useDispatch();
+    // const {userProfile} = useSelector((state) => state.auth);
+    //  useEffect(() => {
+    //     dispatch(getUserProfile());
+    // }, [dispatch]);
+    // console.log(userProfile)
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
-
     const toggleSubmenu1 = () => {
         setIsSubmenuOpen1(!isSubmenuOpen1);
     };
@@ -41,8 +46,8 @@ const Topbar = () => {
         setSearchValue("");
     };
     const handleLogout = () => {
-        dispatch(logout());
         router.push('../../signin');
+        dispatch(logout());
         setIsDropdownOpen(false); // Close the dropdown after logging out
     };
     const handleClickOutside = (event) => {
@@ -71,7 +76,7 @@ const Topbar = () => {
             </div>
             <div className="container ml-auto flex items-center sm:justify-between justify-end">
                 <div
-                    className="ml-4 flex items-center w-[120px] sm:w-[auto] bg-white rounded-lg p-2 transition-colors duration-300 hover:bg-[#f6f7fa]"
+                    className="ml-4 lg:ml-[172px] flex items-center w-[120px] sm:w-[auto] bg-white rounded-lg p-2 transition-colors duration-300 hover:bg-[#f6f7fa]"
                     onMouseEnter={() => setShowCloseIcon(true)}
                     onMouseLeave={() => setShowCloseIcon(false)}
                 >
@@ -122,8 +127,67 @@ const Topbar = () => {
 
                             {isDropdownOpen && (
                                 <div
-                                    className="absolute right-0 mt-8 pb-8
+                                    className="absolute right-0 mt-8 pb-4
                                      w-64 bg-white dark:bg-gray-700 rounded-lg shadow-custom-shadow">
+
+
+            {/*    {userProfile ? (*/}
+            {/*        <div>*/}
+            {/*            {userProfile.user && (*/}
+            {/*                <>*/}
+            {/*                    <p>Email: {userProfile.user.email}</p>*/}
+            {/*                    <p>Role: {userProfile.user.role}</p>*/}
+            {/*                    <p>Full Name: {userProfile.user.full_name}</p>*/}
+            {/*                </>*/}
+            {/*            )}*/}
+            {/*            <p>Date of Birth: {userProfile.date_of_birth}</p>*/}
+            {/*            <p>Bio: {userProfile.bio}</p>*/}
+            {/*            <p>Phone: {userProfile.phone}</p>*/}
+            {/*            /!* Handle null or missing profile image *!/*/}
+            {/*            <p>Profile Image: {userProfile.profile_image ?*/}
+            {/*                <img src={userProfile.profile_image} alt="Profile"/> : "No image available"}</p>*/}
+            {/*            /!* Display address if available *!/*/}
+            {/*            {userProfile.address && <p>Address: {userProfile.address}</p>}*/}
+            {/*            /!* Display skills if available *!/*/}
+            {/*            {userProfile.skills && userProfile.skills.length > 0 && (*/}
+            {/*                <div>*/}
+            {/*                    <h3>Skills</h3>*/}
+            {/*                    <ul>*/}
+            {/*                        {userProfile.skills.map((skill, index) => (*/}
+            {/*                            <li key={index}>{skill}</li>*/}
+            {/*                        ))}*/}
+            {/*                    </ul>*/}
+            {/*                </div>*/}
+            {/*            )}*/}
+            {/*            /!* Display education if available *!/*/}
+            {/*            {userProfile.educations && userProfile.educations.length > 0 && (*/}
+            {/*                <div>*/}
+            {/*                    <h3>Education</h3>*/}
+            {/*                    <ul>*/}
+            {/*                        {userProfile.educations.map((education, index) => (*/}
+            {/*                            <li key={index}>{education}</li>*/}
+            {/*                        ))}*/}
+            {/*                    </ul>*/}
+            {/*                </div>*/}
+            {/*            )}*/}
+            {/*            /!* Display experience if available *!/*/}
+            {/*            {userProfile.experience && userProfile.experience.length > 0 && (*/}
+            {/*                <div>*/}
+            {/*                    <h3>Experience</h3>*/}
+            {/*                    <ul>*/}
+            {/*                        {userProfile.experience.map((exp, index) => (*/}
+            {/*                            <li key={index}>{exp}</li>*/}
+            {/*                        ))}*/}
+            {/*                    </ul>*/}
+            {/*                </div>*/}
+            {/*            )}*/}
+            {/*        </div>*/}
+            {/*    ) : (*/}
+            {/*        <p>No user profile data available.</p>*/}
+            {/*    )}*/}
+            {/*</div>*/}
+
+
                                     <div className="px-4 py-3">
                                         <div className="flex items-center">
                                             <div className="mr-2">

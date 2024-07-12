@@ -36,6 +36,9 @@ module.exports = {
           '@apply border-t border-l border-r border-solid border-gray-200': {},
           'border-radius': '0.6875rem 0.6875rem 0 0',
         },
+        '.card-header-second-child': {
+          'border-radius': '0 0 0.6875rem 0.6875rem',
+        },
       });
     },
       require("flowbite/plugin")({
