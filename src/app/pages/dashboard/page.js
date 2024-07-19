@@ -4,11 +4,11 @@ import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import {FaUserPlus} from "react-icons/fa";
 import {Chart} from 'chart.js/auto';
-import LineChartSection from "@/app/dashboard/section/lineChartSection";
-import BarChartSection from "@/app/dashboard/section/barChartSection";
-import UserSection from "@/app/dashboard/section/userSection";
 import {getUser} from "@/app/slices/authSlice";
 import MainDiv from "@/app/components/mainDiv/mainDiv";
+import LineChartSection from "@/app/pages/dashboard/section/lineChartSection";
+import BarChartSection from "@/app/pages/dashboard/section/barChartSection";
+import UserSection from "@/app/pages/dashboard/section/userSection";
 
 export default function Dashboard({userId}) {
     const {user, users, singleUser,loading,error} = useSelector(state => state.auth);
@@ -19,9 +19,9 @@ export default function Dashboard({userId}) {
     useEffect(() => {
         dispatch(getUser());
     }, [dispatch]);
-    useEffect(() => {
-    console.log("Redux State:", { user, users, singleUser, loading, error });
-}, [user, users, singleUser, loading, error]);
+//     useEffect(() => {
+//     console.log("Redux State:", { user, users, singleUser, loading, error });
+// }, [current_user, users, singleUser, loading, error]);
    useEffect(() => {
     if (singleUser) {
         const isEndUser = singleUser.role === "admin";

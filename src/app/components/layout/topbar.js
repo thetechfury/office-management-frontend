@@ -69,7 +69,7 @@ const Topbar = () => {
     }, [isDropdownOpen]);
     return (
         <div
-            className="fixed flex items-center z-[1] top-0  w-full bg-white text-black border border-b border-inherit py-2  pr-[2rem] ">
+            className="fixed flex items-center z-[1] top-0  w-full bg-white text-black border border-b border-inherit pr-[2rem] ">
             <div className=" pl-[10px]">
                 <Image src={logo} alt='logo' className="w-full min-w-[6.5rem] max-w-[5.5rem]"/>
 

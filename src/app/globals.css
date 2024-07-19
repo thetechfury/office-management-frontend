@@ -71,3 +71,6 @@ select{
 .shadow-custom {
   box-shadow: 0 6px 12px rgba(140, 152, 164, .075);
 }
+.content-container {
+    @apply h-[calc(100vh+1.75rem)];
+}

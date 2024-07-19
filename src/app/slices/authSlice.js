@@ -35,12 +35,12 @@ export const getUser = createAsyncThunk('auth/getUser', async (_, thunkAPI) => {
         });
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || 'Failed to fetch user data');
-        const { all_users, user } = data;
+        const { results, current_user } = data;
         thunkAPI.dispatch(setTotalUsers(data.total_users));
         thunkAPI.dispatch(setTotalTeams(data.total_teams));
         thunkAPI.dispatch(setActiveUsers(data.number_of_active_users));
         thunkAPI.dispatch(setActiveUsersPtg(data.active_user_percentage));
-        return { users: all_users, singleUser: user };
+        return { users: results, singleUser: current_user };
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message);
     }

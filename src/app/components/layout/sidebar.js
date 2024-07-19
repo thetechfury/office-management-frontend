@@ -77,7 +77,7 @@ const Sidebar = () => {
                     </div>
                     <ul className="space-y-2 font-medium">
                         <li className="flex items-center w-full pl-4 py-2  text-gray-900 cursor-pointer hover:text-blue-600">
-                            <Link href="../../dashboard" className='flex items-center'>
+                            <Link href="../../pages/dashboard" className='flex items-center'>
                                 <IoHomeOutline className='mr-2'/> Dashboard
                             </Link>
                         </li>
@@ -133,7 +133,7 @@ const Sidebar = () => {
                                 >
                                     <li>
                                         <Link
-                                            href="../../pages/allusers"
+                                            href="../../pages/users"
                                             className="cursor-pointer hover:text-blue-600 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                         >
                                             <div
@@ -144,7 +144,7 @@ const Sidebar = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            href="../../pages/usersprofiles"
+                                            href="../../pages/user_profile"
                                             className="hover:text-blue-600 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                         >
                                             <div
