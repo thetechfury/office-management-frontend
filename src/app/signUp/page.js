@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import Image from 'next/image';
 import logo from '../assets/svg/logo.svg';
 import Input from "@/app/components/input";
@@ -22,8 +22,8 @@ const schema = Yup.object().shape({
 });
 
 export default function SignUp() {
+    const {user,loading, error} = useSelector(state => state.auth);
     const dispatch = useDispatch();
-    const {loading, error} = useSelector(state => state.auth);
     const router = useRouter();
     const formik = useFormik({
         initialValues: {
@@ -42,7 +42,11 @@ export default function SignUp() {
         },
         validationSchema: schema,
     });
-
+    useEffect(() => {
+        if (!user) {
+                router.push('../signin'); // Redirect to signin if not logged in
+        }
+    }, [user, router]);
     return (
         <MainDiv>
             <div className="bg-custom-image bg-cover fixed top-0 left-0 right-0 h-[32rem]">

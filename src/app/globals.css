@@ -43,7 +43,12 @@ h2 {
     color: #1e2022;
     font-weight: 600;
 }
-
+h3 {
+    font-size: 1.14844rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #1e2022!important;
+}
 h5 {
     font-size: .875rem;
     color: #1e2022;
@@ -73,4 +78,7 @@ select{
 }
 .content-container {
     @apply h-[calc(100vh+1.75rem)];
+}
+.last-border-none:last-child {
+  border-bottom: none;
 }

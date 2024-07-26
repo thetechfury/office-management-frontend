@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import Image from 'next/image';
 import logo from '../assets/svg/logo.svg';
 import Input from "@/app/components/input";
@@ -33,6 +33,9 @@ export default function SignIn() {
         },
         validationSchema: schema,
     });
+    useEffect( ()=>{
+        import('../dashboard/page')
+    },[])
 
     return (
         <div>

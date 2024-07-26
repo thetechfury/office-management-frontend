@@ -4,7 +4,7 @@ import Image from "next/image";
 import logo from '../../assets/svg/logo.svg'
 import {useEffect, useState} from "react";
 import Link from "next/link";
-import {FaRegCalendarCheck, FaUser} from "react-icons/fa";
+import {FaChevronDown, FaChevronUp, FaRegCalendarCheck, FaUser} from "react-icons/fa";
 import {MdOutlineInventory2} from "react-icons/md";
 import {RiTeamLine} from "react-icons/ri";
 import {FcLeave} from "react-icons/fc";
@@ -19,6 +19,10 @@ const Sidebar = () => {
     const [isEndUser, setIsEndUser] = useState(false);
     const {user, users, singleUser,loading,error} = useSelector(state => state.auth);
     const dispatch = useDispatch();
+    const [activeTab, setActiveTab] = useState('dashboard');
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+    };
     useEffect(() => {
         dispatch(getUser());
     }, [dispatch]);
@@ -37,6 +41,7 @@ const Sidebar = () => {
 
     const toggleDropdown2 = () => {
         setIsDropdownOpen2(!isDropdownOpen2);
+        handleTabChange('users')
     }
     const toggleDropdown4 = () => {
         setIsDropdownOpen4(!isDropdownOpen4);
@@ -77,8 +82,12 @@ const Sidebar = () => {
                     </div>
                     <ul className="space-y-2 font-medium">
                         <li className="flex items-center w-full pl-4 py-2  text-gray-900 cursor-pointer hover:text-blue-600">
-                            <Link href="../../pages/dashboard" className='flex items-center'>
-                                <IoHomeOutline className='mr-2'/> Dashboard
+                            <Link href="../../dashboard"> <span
+                                className={`flex items-center ${activeTab === 'dashboard' ? 'text-blue-500' : ''}`}
+                                onClick={() => handleTabChange('dashboard')}
+                            >
+                                <IoHomeOutline className="mr-2"/> Dashboard
+                            </span>
                             </Link>
                         </li>
                         {!isEndUser && <div className='mt-2'>
@@ -100,7 +109,10 @@ const Sidebar = () => {
                         </div>}
                         {isEndUser && <div>
                             <li className="pl-8 py-2 text-neutral-400">Users</li>
-                            <li className="cursor-pointer hover:text-blue-600">
+                            <li
+                                // className="cursor-pointer hover:text-blue-600"
+                                className={`cursor-pointer hover:text-blue-600 ${activeTab === 'users' ? 'text-blue-500' : ''}`}
+                                onClick={() => handleTabChange('users')}>
                                 <button
                                     type="button"
                                     onClick={toggleDropdown2}
@@ -110,22 +122,9 @@ const Sidebar = () => {
                                 >
                                     <FaUser/>
                                     <span
-                                        className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap cursor-pointer text-[#132144] group-hover:text-blue-600">Users</span>
-                                    <svg
-                                        className="w-3 h-3"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 10 6"
-                                    >
-                                        <path
-                                            stroke="currentColor"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="m1 1 4 4 4-4"
-                                        />
-                                    </svg>
+                                        className={`flex-1 ms-3 text-left rtl:text-right whitespace-nowrap cursor-pointer text-[#132144] group-hover:text-blue-600 ${activeTab === 'users' ? 'text-blue-500' : ''}`}
+                                        onClick={() => handleTabChange('users')}>Users</span>
+                                    {isDropdownOpen2 ? <FaChevronUp/> : <FaChevronDown/>}
                                 </button>
                                 <ul
                                     id="dropdown-example"
@@ -134,7 +133,8 @@ const Sidebar = () => {
                                     <li>
                                         <Link
                                             href="../../pages/users"
-                                            className="cursor-pointer hover:text-blue-600 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                            className={`cursor-pointer hover:text-blue-600 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 ${activeTab === 'users' ? 'text-blue-500' : 'text-blue-500'}`}
+                                            onClick={() => handleTabChange('users')}
                                         >
                                             <div
                                                 className="group-hover:bg-blue-600 w-[10px] h-[10px] bg-[#cdcdcd] rounded-full mr-[10px]"></div>
@@ -164,74 +164,20 @@ const Sidebar = () => {
                                     </li>
                                 </ul>
                             </li>
-                            <li className="cursor-pointer hover:text-blue-600">
-                                <button
-                                    type="button"
-                                    onClick={toggleDropdown4}
-                                    className="hover:text-blue-600 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                    aria-controls="dropdown-example"
-                                    aria-expanded={isDropdownOpen4}
-                                >
-                                    <svg
-                                        className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="currentColor"
-                                        viewBox="0 0 18 21"
-                                    >
-                                        <path
-                                            d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
-                                    </svg>
-                                    <span
-                                        className="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap cursor-pointer hover:text-blue-600">Inventory</span>
-                                    <svg
-                                        className="w-3 h-3"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 10 6"
-                                    >
-                                        <path
-                                            stroke="currentColor"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="m1 1 4 4 4-4"
-                                        />
-                                    </svg>
-                                </button>
-                                <ul
-                                    id="dropdown-example"
-                                    className={`${isDropdownOpen4 ? 'block' : 'hidden'} py-2 space-y-2`}
-                                >
-                                    <li>
-                                        <Link
-                                            href="#"
-                                            className="cursor-pointer hover:text-blue-600 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                        >
-                                            Sign In
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            href="#"
-                                            className="hover:text-blue-600 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                        >
-                                            Sign Up
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            href="#"
-                                            className="cursor-pointer hover:text-blue-600 flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                        >
-                                            Reset Password
-                                        </Link>
-                                    </li>
-                                </ul>
+                            <li className="flex items-center w-full pl-4 py-2  text-gray-900 cursor-pointer hover:text-blue-600">
+                                <Link href="#"
+                                      className={`flex items-center ${activeTab === 'inventory' ? 'text-blue-500' : ''}`}
+                                      onClick={() => handleTabChange('inventory')}>
+                                    <MdOutlineInventory2 className="mr-2"/>Inventory
+                                </Link>
                             </li>
                             <li className="flex items-center w-full pl-4 py-2  text-gray-900 cursor-pointer hover:text-blue-600">
-                                <RiTeamLine className='mr-2'/>Teams
+                                <Link href="../../pages/user_profile"
+                                      className={`flex items-center ${activeTab === 'team' ? 'text-blue-500' : ''}`}
+                                      onClick={() => handleTabChange('team')}>
+                                    <RiTeamLine className='mr-2'/>Teams
+                                </Link>
+
                             </li>
                         </div>}
 

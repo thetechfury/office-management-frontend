@@ -1,7 +1,12 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { login, signup } from "@/app/api/authentication";
-import { getUserProfile } from "@/app/api/getUserProfileApi";
-import { deleteUser } from "@/app/api/deleteUserApi";
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {login, signup} from "@/app/api/authentication";
+import {getUserProfile} from "@/app/api/getUserProfileApi";
+import {deleteUser} from "@/app/api/deleteUserApi";
+import {getUserAddressApi} from "@/app/api/getUserAddressApi";
+import {getSingleUserApi} from "@/app/api/getSingleUserApi";
+import {getUserEducation} from "@/app/api/getUserEducationApi";
+import {getUserExperience} from "@/app/api/getUserExperienceApi";
+import {getUserSkill} from "@/app/api/getUserSkillsApi";
 
 const BASE_URL = 'http://127.0.0.1:8000';
 const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
@@ -17,6 +22,11 @@ const initialState = {
     activeUsers: 0,
     activeUserPtg: 0,
     userProfile: [],
+    userEducation: 0,
+    userExperience: 0,
+    userSkill: 0,
+    userAddress: 0,
+    userSingle: 0,
     loading: false,
     error: null,
 };
@@ -35,12 +45,12 @@ export const getUser = createAsyncThunk('auth/getUser', async (_, thunkAPI) => {
         });
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || 'Failed to fetch user data');
-        const { results, current_user } = data;
+        const {results, user} = data;
         thunkAPI.dispatch(setTotalUsers(data.total_users));
         thunkAPI.dispatch(setTotalTeams(data.total_teams));
         thunkAPI.dispatch(setActiveUsers(data.number_of_active_users));
         thunkAPI.dispatch(setActiveUsersPtg(data.active_user_percentage));
-        return { users: results, singleUser: current_user };
+        return {users: results, singleUser: user};
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message);
     }
@@ -145,6 +155,66 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(getUserAddressApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getUserAddressApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userAddress = action.payload;
+            })
+            .addCase(getUserAddressApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(getSingleUserApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getSingleUserApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userSingle = action.payload;
+            })
+            .addCase(getSingleUserApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(getUserEducation.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getUserEducation.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userEducation = action.payload;
+            })
+            .addCase(getUserEducation.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(getUserExperience.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getUserExperience.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userExperience = action.payload;
+            })
+            .addCase(getUserExperience.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(getUserSkill.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getUserSkill.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userSkill = action.payload;
+            })
+            .addCase(getUserSkill.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
             .addCase(deleteUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -160,5 +230,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { logout } = authSlice.actions;
+export const {logout} = authSlice.actions;
 export default authSlice.reducer;

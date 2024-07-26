@@ -14,9 +14,6 @@ export default function RootLayout({children}) {
     return (
         <Providers>
             <html lang="en">
-            <head>
-                <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-            </head>
             <body className=''>
             <header>
             <Layout/>
