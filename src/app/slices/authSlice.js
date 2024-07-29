@@ -7,6 +7,8 @@ import {getSingleUserApi} from "@/app/api/getSingleUserApi";
 import {getUserEducation} from "@/app/api/getUserEducationApi";
 import {getUserExperience} from "@/app/api/getUserExperienceApi";
 import {getUserSkill} from "@/app/api/getUserSkillsApi";
+import {getUserTeamApi} from "@/app/api/getUserTeamApi";
+import {createTeam} from "@/app/api/createTeamApi";
 
 const BASE_URL = 'http://127.0.0.1:8000';
 const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
@@ -26,6 +28,7 @@ const initialState = {
     userExperience: 0,
     userSkill: 0,
     userAddress: 0,
+    userTeam:0,
     userSingle: 0,
     loading: false,
     error: null,
@@ -215,6 +218,18 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(getUserTeamApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getUserTeamApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userTeam = action.payload;
+            })
+            .addCase(getUserTeamApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
             .addCase(deleteUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -224,6 +239,18 @@ const authSlice = createSlice({
                 state.users = state.users.filter(user => user.id !== action.payload);
             })
             .addCase(deleteUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(createTeam.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(createTeam.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+            })
+            .addCase(createTeam.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });

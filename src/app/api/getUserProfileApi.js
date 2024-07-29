@@ -4,7 +4,7 @@ const BASE_URL = 'http://127.0.0.1:8000';
 export const getUserProfile = createAsyncThunk('auth/getUserProfile', async (id, thunkAPI) => {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`${BASE_URL}/user/${id}/profile`, {
+        const response = await fetch(`${BASE_URL}/user/${id}/profile/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -22,7 +22,7 @@ const Education = () => {
     }, [id, dispatch]);
     return (
         <Card2 heading='Education'>
-            {userEducation && userEducation.length > 0 ? (
+            {userEducation && userEducation?.length > 0 ? (
                 <Content label='Degree'>
                     {userEducation.map(education => (
                         <li key={education.id} className="flex items-center justify-between border-b border-inherit last-border-none">

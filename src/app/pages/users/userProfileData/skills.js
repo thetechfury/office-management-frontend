@@ -22,7 +22,7 @@ const Skills = () => {
     }, [id, dispatch]);
     return (
         <Card2 heading='Skills'>
-            {userSkill && userSkill.length > 0 ? (
+            {userSkill && userSkill?.length > 0 ? (
                 <Content label='Skill' >
                     {userSkill.map(skill => (
                         <li key={skill.id} className="flex justify-between border-b border-inherit last-border-none">

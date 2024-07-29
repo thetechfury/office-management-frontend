@@ -24,7 +24,7 @@ const WorkExperience = () => {
     }, [id, dispatch]);
     return (
         <Card2 heading="Work Experience">
-                     {userExperience && userExperience.length > 0 ?
+                     {userExperience && userExperience?.length > 0 ?
                          (<Content label="Company Name">
                         {userExperience.map(experience => (
                             <li key={experience.id} className="flex items-center justify-between border-b border-inherit last-border-none">

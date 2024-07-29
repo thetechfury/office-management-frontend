@@ -4,7 +4,7 @@ const BASE_URL = 'http://127.0.0.1:8000';
 export const getUserAddressApi = createAsyncThunk('auth/getUserAddressApi', async (id, thunkAPI) => {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`${BASE_URL}/user/${id}/address`, {
+        const response = await fetch(`${BASE_URL}/user/${id}/address/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

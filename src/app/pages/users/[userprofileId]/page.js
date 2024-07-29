@@ -162,7 +162,7 @@ const UserProfileDetail = () => {
                                 className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
                         </div>
 
-                        <h1 className="text-2xl font-semibold mt-4">{userSingle.full_name}
+                        <h1 className="text-2xl font-semibold mt-4">{userSingle?.full_name}
                             <i className="tio-verified text-primary ml-1" data-toggle="tooltip" data-placement="top"
                                title="Top endorsed"></i>
                         </h1>
@@ -181,24 +181,13 @@ const UserProfileDetail = () => {
                             </li>
                             <li className="flex items-center">
                                 <BsCalendar4Week className="tio-date-range mr-1"/>
-                                <span>Joined date : {userSingle.date_joined}</span>
+                                <span>Joined date : {userSingle?.date_joined}</span>
                             </li>
 
 
                         </ul>
                     </div>
                     <div className="relative mb-5">
-                          <span className="hidden absolute left-0 top-0">
-                            <a className="inline-block p-2" href="javascript:;">
-                              <i className="tio-chevron-left"></i>
-                            </a>
-                          </span>
-
-                        <span className="hidden absolute right-0 top-0">
-                                <a className="inline-block p-2" href="javascript:;">
-                                  <i className="tio-chevron-right"></i>
-                                </a>
-                              </span>
 
                         <ul className="flex space-x-4 border-b border-gray-200">
                             <li>

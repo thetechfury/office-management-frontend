@@ -40,13 +40,13 @@ const Profile = () => {
             <Content label='About'>
                 <li className="flex items-center">
                     <CiUser className='mr-2 opacity-50'/>
-                    <div className="relative group">{userSingle.full_name}
+                    <div className="relative group">{userSingle?.full_name}
                         <p className="hidden group-hover:block absolute top-[-24px] bg-white shadow-lg p-2 rounded-lg">Name</p>
                     </div>
                 </li>
                 <li className="flex items-center ">
                     <PiBriefcaseThin className='mr-2 opacity-50'/>
-                    <div className="relative group">{userSingle.role}
+                    <div className="relative group">{userSingle?.role}
                         <p className="hidden group-hover:block absolute top-[-24px] bg-white shadow-lg p-2 rounded-lg">Role</p>
                     </div>
                 </li>
@@ -54,13 +54,13 @@ const Profile = () => {
             <Content label='Contact'>
                 <li className="flex items-center ">
                     <MdOutlineAlternateEmail className='mr-2 opacity-50'/>
-                    <div className="relative group">{userSingle.email}
+                    <div className="relative group">{userSingle?.email}
                         <p className="hidden group-hover:block absolute top-[-24px] bg-white shadow-lg p-2 rounded-lg">Email</p>
                     </div>
                 </li>
                 <li className="flex items-center">
                     <IoPhonePortraitOutline className='mr-2 opacity-50'/>
-                    <div className="relative group">{userProfile.phone}
+                    <div className="relative group">{userProfile?.phone}
                         <p className="hidden group-hover:block absolute top-[-24px] bg-white shadow-lg p-2 rounded-lg">phone</p>
                     </div>
                 </li>
