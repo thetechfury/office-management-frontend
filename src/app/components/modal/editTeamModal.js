@@ -1,40 +1,42 @@
 'use client';
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Input from "@/app/components/input";
-import {useFormik} from "formik";
-import {createTeam} from "@/app/api/createTeamApi";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import {useDispatch, useSelector} from "react-redux";
-import {getTeamLeaderApi} from "@/app/api/getTeamLeaderApi";
+import { useDispatch, useSelector } from "react-redux";
+import { getTeamLeaderApi } from "@/app/api/getTeamLeaderApi";
 import CustomDropdown from "@/app/components/CustomDropdown/CustomDropdown";
-import {FiX} from "react-icons/fi";
+import { FiX } from "react-icons/fi";
 import Swal from "sweetalert2";
+import { getTeamMembersApi } from "@/app/api/getTeamMembersApi";
+import { teamUpdateApi } from "@/app/api/teamUpdateApi";
 
 const schema = Yup.object().shape({
     name: Yup.string().required('Team Name is required'),
     description: Yup.string().required('Description is required').min(20, 'Description must be at least 20 characters'),
-    leader: Yup.string().required('Team Leader is required'),
+    // leader: Yup.string().required('Team Leader is required'),
 });
 
-const CreateTeamModal = ({isOpen, onClose}) => {
+const EditTeamModal = ({ isOpen, onClose, teamData }) => {
     const dispatch = useDispatch();
-    const {teamLeader} = useSelector(state => state.auth);
+    const { teamLeader } = useSelector(state => state.auth);
     const [leaders, setLeaders] = useState([]);
     const modalRef = useRef(null);
 
     const formik = useFormik({
         initialValues: {
-            name: "",
-            description: "",
-            leader: "",
+            name: teamData ? teamData.name : "",
+            description: teamData ? teamData.description : "",
+            // leader: "",
         },
+        enableReinitialize: true, // Enable reinitializing the form with new initialValues
         onSubmit: async (values) => {
-            const result = await dispatch(createTeam(values));
-            if (createTeam.fulfilled.match(result)) {
+            const result = await dispatch(teamUpdateApi({ id: teamData.id, credentials: values }));
+            if (teamUpdateApi.fulfilled.match(result)) {
                 formik.resetForm();  // Reset form fields
                 Swal.fire({
                     title: 'Success!',
-                    text: 'Team created successfully',
+                    text: 'Team updated successfully',
                     icon: 'success',
                     confirmButtonText: 'OK'
                 }).then(() => {
@@ -43,7 +45,7 @@ const CreateTeamModal = ({isOpen, onClose}) => {
             } else {
                 Swal.fire({
                     title: 'Error!',
-                    text: 'There was an issue creating the team',
+                    text: 'There was an issue updating the team',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -53,12 +55,12 @@ const CreateTeamModal = ({isOpen, onClose}) => {
     });
 
     useEffect(() => {
-        if (isOpen) {
-            dispatch(getTeamLeaderApi()).then(response => {
-                setLeaders(response.payload); // Adjust according to your actual data structure
-            });
-        }
-    }, [dispatch, isOpen]);
+    if (isOpen && teamData) {
+        dispatch(getTeamMembersApi(teamData.id)).then(response => {
+            setLeaders(Array.isArray(response.payload) ? response.payload : []); // Ensure leaders is an array
+        });
+    }
+}, [dispatch, isOpen, teamData]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -82,10 +84,10 @@ const CreateTeamModal = ({isOpen, onClose}) => {
                         onClick={onClose}
                         className=" text-gray-500 hover:text-gray-700"
                     >
-                        <FiX/>
+                        <FiX />
                     </button>
                 </div>
-                <h2 className="text-2xl mb-4">Create Team</h2>
+                <h2 className="text-2xl mb-4">Edit Team</h2>
 
                 <form onSubmit={formik.handleSubmit}>
                     <div className="mb-4">
@@ -121,7 +123,7 @@ const CreateTeamModal = ({isOpen, onClose}) => {
                             selectedValue={formik.values.leader}
                             onChange={(value) => formik.setFieldValue('leader', value)}
                             placeholder="Select team leader"
-                            error={formik.touched.leader && formik.errors.leader ? formik.errors.leader : null}
+                            // error={formik.touched.leader && formik.errors.leader ? formik.errors.leader : null}
                         />
                     </div>
                     <div className="flex justify-end">
@@ -133,7 +135,7 @@ const CreateTeamModal = ({isOpen, onClose}) => {
                             Cancel
                         </button>
                         <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
-                            Create
+                            Update
                         </button>
                     </div>
                 </form>
@@ -142,4 +144,4 @@ const CreateTeamModal = ({isOpen, onClose}) => {
     );
 };
 
-export default CreateTeamModal;
+export default EditTeamModal;

@@ -128,6 +128,7 @@ const UserSection = () => {
                                             className=""
                                             value={selectedStatus}
                                             onChange={(e) => setSelectedStatus(e.target.value)}
+                                            style={{ border: "none" }}
                                         >
                                             <option value="">All</option>
                                             <option value="true">Active</option>
@@ -143,6 +144,7 @@ const UserSection = () => {
                                         <select
                                             value={selectSignUp}
                                             onChange={(e) => setSelectSignUp(e.target.value)}
+                                            style={{ border: "none" }}
                                         >
                                             <option value="">All</option>
                                             <option value="2023">2023</option>
@@ -272,7 +274,7 @@ const UserSection = () => {
                             <div className="d-flex justify-content-center justify-content-sm-start align-items-center">
                                 <span className="mr-2">Showing:</span>
                                 {/* Select */}
-                                <select value={usersPerPage} onChange={handleUsersPerPageChange}>
+                                <select value={usersPerPage} onChange={handleUsersPerPageChange} style={{ border: "none" }}>
                                     <option value={4}>4</option>
                                     <option value={6}>6</option>
                                     <option value={8}>8</option>

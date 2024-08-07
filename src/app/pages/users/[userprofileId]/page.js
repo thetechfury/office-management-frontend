@@ -12,7 +12,7 @@ import {BsCalendar4Week} from "react-icons/bs";
 import {PiBriefcaseThin} from "react-icons/pi";
 import {IoPhonePortraitOutline} from "react-icons/io5";
 import {FaUserGroup} from "react-icons/fa6";
-import Teams from "@/app/pages/teams/page";
+import Teams from "@/app/pages/user-teams/page";
 import {getUserAddressApi} from "@/app/api/getUserAddressApi";
 import {getSingleUserApi} from "@/app/api/getSingleUserApi";
 import {usePathname, useRouter} from "next/navigation";
@@ -24,11 +24,10 @@ import Education from "@/app/pages/users/userProfileData/education";
 import WorkExperience from "@/app/pages/users/userProfileData/workExperience";
 
 
-
 const UserProfileDetail = () => {
     const dispatch = useDispatch();
     const userProfile = useSelector((state) => state.auth.userProfile);
-    const {userAddress, userSingle, user, userEducation, userExperience,singleUser} = useSelector(state => state.auth)
+    const {userAddress, userSingle, user, userEducation, userExperience, singleUser} = useSelector(state => state.auth)
     const [activeTab, setActiveTab] = useState('profile');
     const router = useRouter();
     const userIdFromStorage = localStorage.getItem('userId');
@@ -89,7 +88,7 @@ const UserProfileDetail = () => {
         title2: userSingle.role,
         title3: userSingle.email,
         title4: userProfile.phone,
-        title5: 'Member of 7 teams',
+        title5: 'Member of 7 user-teams',
         title6: 'Working on 8 projects',
     };
     const card4Props = {
@@ -107,7 +106,7 @@ const UserProfileDetail = () => {
         title2: userSingle.role,
         title3: userSingle.email,
         title4: userProfile.phone,
-        title5: 'Member of 7 teams',
+        title5: 'Member of 7 user-teams',
         title6: 'Working on 8 projects',
     };
     const card5Props = {
@@ -125,7 +124,7 @@ const UserProfileDetail = () => {
         title2: userSingle.role,
         title3: userSingle.email,
         title4: userProfile.phone,
-        title5: 'Member of 7 teams',
+        title5: 'Member of 7 user-teams',
         title6: 'Working on 8 projects',
     };
     const card3Props = {
@@ -147,79 +146,80 @@ const UserProfileDetail = () => {
         description5: '3 members',
     };
 
-    return (<MainDiv>
-        <div className="container mx-auto px-4">
-            <div className="flex justify-center">
-                <div className="lg:w-10/12">
-                    <div className="bg-profile-image bg-cover top-0 left-0 right-0 h-[10rem] rounded-lg"></div>
-                    <div className="text-center mb-5">
+    return (
+        <MainDiv>
+            <div className="container mx-auto px-4">
+                <div className="flex justify-center">
+                    <div className="lg:w-10/12">
+                        <div className="bg-profile-image bg-cover top-0 left-0 right-0 h-[10rem] rounded-lg"></div>
+                        <div className="text-center mb-5">
 
-                        <div
-                            className="relative inline-block w-32 h-32 rounded-full border-4 border-white bg-white mt-[-6.3rem]">
-                            <Image className="w-full h-full rounded-full object-cover"
-                                   src={profileImg} alt="Image Description"/>
-                            <span
-                                className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
+                            <div
+                                className="relative inline-block w-32 h-32 rounded-full border-4 border-white bg-white mt-[-6.3rem]">
+                                <Image className="w-full h-full rounded-full object-cover"
+                                       src={profileImg} alt="Image Description"/>
+                                <span
+                                    className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
+                            </div>
+
+                            <h1 className="text-2xl font-semibold mt-4">{userSingle?.full_name}
+                                <i className="tio-verified text-primary ml-1" data-toggle="tooltip" data-placement="top"
+                                   title="Top endorsed"></i>
+                            </h1>
+
+
+                            <ul className="flex justify-center space-x-4 mt-2">
+
+                                <li className="flex items-center">
+                                    <MdLocationCity className="tio-city mr-1"/>
+                                    <span>{userAddress?.city}</span>
+                                </li>
+                                <li className="flex items-center">
+                                    <CiLocationOn className="tio-poi-outlined mr-1"/>
+                                    <Link href="#"
+                                          className="hover:text-blue-600 text-blue-600 ml-1">{userAddress?.state},{userAddress?.country}</Link>
+                                </li>
+                                <li className="flex items-center">
+                                    <BsCalendar4Week className="tio-date-range mr-1"/>
+                                    <span>Joined date : {userSingle?.date_joined}</span>
+                                </li>
+
+
+                            </ul>
                         </div>
+                        <div className="relative mb-5">
 
-                        <h1 className="text-2xl font-semibold mt-4">{userSingle?.full_name}
-                            <i className="tio-verified text-primary ml-1" data-toggle="tooltip" data-placement="top"
-                               title="Top endorsed"></i>
-                        </h1>
-
-
-                        <ul className="flex justify-center space-x-4 mt-2">
-
-                            <li className="flex items-center">
-                                <MdLocationCity className="tio-city mr-1"/>
-                                <span>{userAddress?.city}</span>
-                            </li>
-                            <li className="flex items-center">
-                                <CiLocationOn className="tio-poi-outlined mr-1"/>
-                                <Link href="#"
-                                      className="hover:text-blue-600 text-blue-600 ml-1">{userAddress?.state},{userAddress?.country}</Link>
-                            </li>
-                            <li className="flex items-center">
-                                <BsCalendar4Week className="tio-date-range mr-1"/>
-                                <span>Joined date : {userSingle?.date_joined}</span>
-                            </li>
-
-
-                        </ul>
+                            <ul className="flex space-x-4 border-b border-gray-200">
+                                <li>
+                                    <button
+                                        className={`px-4 py-2 ${activeTab === 'profile' ? 'border-b-2 border-blue-500 text-blue-500' : 'hover:text-blue-600'}`}
+                                        onClick={() => handleTabChange('profile')}
+                                    >
+                                        Profile
+                                    </button>
+                                </li>
+                                <li>
+                                    <button
+                                        className={`px-4 py-2 ${activeTab === 'user-teams' ? 'border-b-2 border-blue-500 text-blue-500' : 'hover:text-blue-600'}`}
+                                        onClick={() => handleTabChange('user-teams')}
+                                    >
+                                        Teams
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        {activeTab === 'profile' && (
+                            <div className="grid grid-cols-2 gap-4">
+                                <Profile/>
+                                <Skills/>
+                                <Education/>
+                                <WorkExperience/>
+                            </div>)}
+                        {activeTab === 'user-teams' && <Teams/>}
                     </div>
-                    <div className="relative mb-5">
-
-                        <ul className="flex space-x-4 border-b border-gray-200">
-                            <li>
-                                <button
-                                    className={`px-4 py-2 ${activeTab === 'profile' ? 'border-b-2 border-blue-500 text-blue-500' : 'hover:text-blue-600'}`}
-                                    onClick={() => handleTabChange('profile')}
-                                >
-                                    Profile
-                                </button>
-                            </li>
-                            <li>
-                                <button
-                                    className={`px-4 py-2 ${activeTab === 'teams' ? 'border-b-2 border-blue-500 text-blue-500' : 'hover:text-blue-600'}`}
-                                    onClick={() => handleTabChange('teams')}
-                                >
-                                    Teams
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                    {activeTab === 'profile' && (
-                        <div className="grid grid-cols-2 gap-4">
-                            <Profile/>
-                            <Skills/>
-                            <Education/>
-                            <WorkExperience/>
-                        </div>)}
-                    {activeTab === 'teams' && <Teams/>}
                 </div>
             </div>
-        </div>
-    </MainDiv>);
+        </MainDiv>);
 };
 
 export default UserProfileDetail;

@@ -88,7 +88,7 @@ export default useFetchUserRole;
 //                       <h2>User Data</h2>
 //                       <p>Number of active users: {userData.number_of_active_users}</p>
 //                       <p>Total users: {userData.total_users}</p>
-//                       <p>Total teams: {userData.total_teams}</p>
+//                       <p>Total user-teams: {userData.total_teams}</p>
 //                       {/* Render other data as needed */}
 //                       <h3>User Details</h3>
 //                       <p>Email: {userData.user.email}</p>
@@ -105,7 +105,7 @@ export default useFetchUserRole;
 //                   <h2>User Data</h2>
 //                   <p>Number of active users: {userData.number_of_active_users}</p>
 //                   <p>Total users: {userData.total_users}</p>
-//                   <p>Total teams: {userData.total_teams}</p>
+//                   <p>Total user-teams: {userData.total_teams}</p>
 //
 //                   <h3>All Users</h3>
 //                   <ul>

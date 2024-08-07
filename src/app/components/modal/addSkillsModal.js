@@ -9,14 +9,17 @@ import {getTeamLeaderApi} from "@/app/api/getTeamLeaderApi";
 import CustomDropdown from "@/app/components/CustomDropdown/CustomDropdown";
 import {FiX} from "react-icons/fi";
 import Swal from "sweetalert2";
+import {addSkillsApi} from "@/app/api/addSkillsApi";
+import Button from "@/app/components/button/button";
+import TextArea from "@/app/components/textarea";
 
 const schema = Yup.object().shape({
     name: Yup.string().required('Team Name is required'),
     description: Yup.string().required('Description is required').min(20, 'Description must be at least 20 characters'),
-    leader: Yup.string().required('Team Leader is required'),
+    level: Yup.string().required('Team level is required'),
 });
 
-const CreateTeamModal = ({isOpen, onClose}) => {
+const AddSkillsModal = ({isOpen, onClose}) => {
     const dispatch = useDispatch();
     const {teamLeader} = useSelector(state => state.auth);
     const [leaders, setLeaders] = useState([]);
@@ -26,15 +29,15 @@ const CreateTeamModal = ({isOpen, onClose}) => {
         initialValues: {
             name: "",
             description: "",
-            leader: "",
+            level: "",
         },
         onSubmit: async (values) => {
-            const result = await dispatch(createTeam(values));
-            if (createTeam.fulfilled.match(result)) {
+            const result = await dispatch(addSkillsApi(values));
+            if (addSkillsApi.fulfilled.match(result)) {
                 formik.resetForm();  // Reset form fields
                 Swal.fire({
                     title: 'Success!',
-                    text: 'Team created successfully',
+                    text: 'Add Skills successfully',
                     icon: 'success',
                     confirmButtonText: 'OK'
                 }).then(() => {
@@ -43,7 +46,7 @@ const CreateTeamModal = ({isOpen, onClose}) => {
             } else {
                 Swal.fire({
                     title: 'Error!',
-                    text: 'There was an issue creating the team',
+                    text: 'There was an issue add skills',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
@@ -51,14 +54,6 @@ const CreateTeamModal = ({isOpen, onClose}) => {
         },
         validationSchema: schema,
     });
-
-    useEffect(() => {
-        if (isOpen) {
-            dispatch(getTeamLeaderApi()).then(response => {
-                setLeaders(response.payload); // Adjust according to your actual data structure
-            });
-        }
-    }, [dispatch, isOpen]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -85,14 +80,14 @@ const CreateTeamModal = ({isOpen, onClose}) => {
                         <FiX/>
                     </button>
                 </div>
-                <h2 className="text-2xl mb-4">Create Team</h2>
+                <h2 className="text-2xl mb-4">Add Skills</h2>
 
                 <form onSubmit={formik.handleSubmit}>
                     <div className="mb-4">
                         <Input
                             type="text"
                             name='name'
-                            label="Team Name"
+                            label="Skill Name"
                             className="w-full px-3 py-2 border rounded"
                             value={formik.values.name}
                             onChange={formik.handleChange}
@@ -102,7 +97,7 @@ const CreateTeamModal = ({isOpen, onClose}) => {
                         />
                     </div>
                     <div className="mb-4">
-                        <Input
+                        <TextArea
                             type="text"
                             name="description"
                             label="Description"
@@ -115,13 +110,16 @@ const CreateTeamModal = ({isOpen, onClose}) => {
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700 mb-2">Team Leader</label>
-                        <CustomDropdown
-                            options={leaders}
-                            selectedValue={formik.values.leader}
-                            onChange={(value) => formik.setFieldValue('leader', value)}
-                            placeholder="Select team leader"
-                            error={formik.touched.leader && formik.errors.leader ? formik.errors.leader : null}
+                        <Input
+                            type="text"
+                            name="level"
+                            label="Level"
+                            className="w-full px-3 py-2 border rounded"
+                            value={formik.values.level}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.level && formik.errors.level ? formik.errors.level : null}
+                            required={true}
                         />
                     </div>
                     <div className="flex justify-end">
@@ -132,9 +130,7 @@ const CreateTeamModal = ({isOpen, onClose}) => {
                         >
                             Cancel
                         </button>
-                        <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
-                            Create
-                        </button>
+                        <Button text="Add skill"/>
                     </div>
                 </form>
             </div>
@@ -142,4 +138,4 @@ const CreateTeamModal = ({isOpen, onClose}) => {
     );
 };
 
-export default CreateTeamModal;
+export default AddSkillsModal;

@@ -1,5 +1,5 @@
 
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {getUserExperience} from "@/app/api/getUserExperienceApi";
 import {useDispatch, useSelector} from "react-redux";
 import Content from "@/app/components/card/content";
@@ -8,6 +8,7 @@ import {MdRotate90DegreesCw} from "react-icons/md";
 import {BiSolidInstitution} from "react-icons/bi";
 import Message from "@/app/components/message/message";
 import {usePathname} from "next/navigation";
+import AddWorkExperienceModal from "@/app/components/modal/addWorkExperienceModal";
 
 
 const WorkExperience = () => {
@@ -16,14 +17,23 @@ const WorkExperience = () => {
     const userIdFromStorage = localStorage.getItem('userId');
     const currentUserId = singleUser?.id;
     const currentPage = usePathname();
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const id = currentPage === '/pages/user_profile' ? currentUserId : userIdFromStorage;
     useEffect(() => {
         if (id) {
             dispatch(getUserExperience(id));
         }
     }, [id, dispatch]);
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
     return (
-        <Card2 heading="Work Experience">
+        <>
+        <Card2 heading="Work Experience" text="Add Work Experience" onclick={openModal}>
                      {userExperience && userExperience?.length > 0 ?
                          (<Content label="Company Name">
                         {userExperience.map(experience => (
@@ -50,6 +60,8 @@ const WorkExperience = () => {
                              <Message>No Experience data available</Message>
                          )}
         </Card2>
+            <AddWorkExperienceModal isOpen={isModalOpen} onClose={closeModal}/>
+            </>
 
     )
 };

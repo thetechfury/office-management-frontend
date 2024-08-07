@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { CiLocationOn } from 'react-icons/ci';
 import { MdLocationCity, MdOutlineCreate } from 'react-icons/md';
 import { BsCalendar4Week } from 'react-icons/bs';
-import Teams from '@/app/pages/teams/page';
+import Teams from '@/app/pages/user-teams/page';
 import { getUserAddressApi } from '@/app/api/getUserAddressApi';
 import { useRouter } from 'next/navigation';
 import Profile from '@/app/pages/users/userProfileData/profile';
@@ -107,13 +107,13 @@ const UserProfile = () => {
                                 </li>
                                 <li>
                                     <button
-                                        className={`px-4 py-2 ${activeTab === 'teams' ? 'border-b-2 border-blue-500 text-blue-500' : 'hover:text-blue-600'}`}
-                                        onClick={() => handleTabChange('teams')}
+                                        className={`px-4 py-2 ${activeTab === 'user-teams' ? 'border-b-2 border-blue-500 text-blue-500' : 'hover:text-blue-600'}`}
+                                        onClick={() => handleTabChange('user-teams')}
                                     >
                                         Teams
                                     </button>
                                 </li>
-                                {activeTab === 'teams' && (
+                                {activeTab === 'user-teams' && (
                                     <li className="!ml-auto flex items-center space-x-2 pb-2">
                                         <button
                                             className="px-4 py-2 bg-white hover:text-blue-600 border border-gray-300 rounded text-gray-700 flex items-center"
@@ -133,7 +133,7 @@ const UserProfile = () => {
                                 <WorkExperience />
                             </div>
                         )}
-                        {activeTab === 'teams' && <Teams />}
+                        {activeTab === 'user-teams' && <Teams />}
                     </div>
                 </div>
             </div>

@@ -1,11 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 const BASE_URL = 'http://127.0.0.1:8000';
-export const getUserEducation = createAsyncThunk('auth/getUserEducation',
-    async (id, thunkAPI) => {
+export const getAllTeamApi = createAsyncThunk('auth/getAllTeamApi', async (thunkAPI) => {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`${BASE_URL}/user/${id}/education/`, {
+        const response = await fetch(`${BASE_URL}/team/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

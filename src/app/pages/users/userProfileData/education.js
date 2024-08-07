@@ -21,7 +21,7 @@ const Education = () => {
         }
     }, [id, dispatch]);
     return (
-        <Card2 heading='Education'>
+        <Card2 heading='Education' text="Add Education">
             {userEducation && userEducation?.length > 0 ? (
                 <Content label='Degree'>
                     {userEducation.map(education => (

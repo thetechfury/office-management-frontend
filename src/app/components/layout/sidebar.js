@@ -172,7 +172,7 @@ const Sidebar = () => {
                                 </Link>
                             </li>
                             <li className="flex items-center w-full pl-4 py-2  text-gray-900 cursor-pointer hover:text-blue-600">
-                                <Link href="../../pages/user_profile"
+                                <Link href="../../pages/all-teams"
                                       className={`flex items-center ${activeTab === 'team' ? 'text-blue-500' : ''}`}
                                       onClick={() => handleTabChange('team')}>
                                     <RiTeamLine className='mr-2'/>Teams

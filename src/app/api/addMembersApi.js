@@ -1,21 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 const BASE_URL = 'http://127.0.0.1:8000';
-export const getUserEducation = createAsyncThunk('auth/getUserEducation',
-    async (id, thunkAPI) => {
+export const addMemebersApi = createAsyncThunk('auth/addMemebersApi', async (credentials,thunkAPI) => {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`${BASE_URL}/user/${id}/education/`, {
-            method: 'GET',
+        const response = await fetch(`${BASE_URL}/member/`, {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'Authorization': `Token ${token}`,
             },
-            credentials: 'include',
+            body: JSON.stringify(credentials),
         });
         const data = await response.json();
-        if (!response.ok) throw new Error(data.message || 'Failed to fetch user profile');
+        if (!response.ok) throw new Error(data.message || 'Failed to create team');
 
         return data;
     } catch (error) {

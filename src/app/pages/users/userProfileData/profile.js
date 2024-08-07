@@ -36,7 +36,7 @@ const Profile = () => {
         }
     }, [id, dispatch]);
     return (
-        <Card2 heading='profile'>
+        <Card2 heading='profile' text="Edit Profile">
             <Content label='About'>
                 <li className="flex items-center">
                     <CiUser className='mr-2 opacity-50'/>

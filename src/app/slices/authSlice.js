@@ -2,6 +2,7 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {login, signup} from "@/app/api/authentication";
 import {getUserProfile} from "@/app/api/getUserProfileApi";
 import {deleteUser} from "@/app/api/deleteUserApi";
+import {deleteMemeberApi} from "@/app/api/deleteMemberApi";
 import {getUserAddressApi} from "@/app/api/getUserAddressApi";
 import {getSingleUserApi} from "@/app/api/getSingleUserApi";
 import {getUserEducation} from "@/app/api/getUserEducationApi";
@@ -9,6 +10,15 @@ import {getUserExperience} from "@/app/api/getUserExperienceApi";
 import {getUserSkill} from "@/app/api/getUserSkillsApi";
 import {getUserTeamApi} from "@/app/api/getUserTeamApi";
 import {createTeam} from "@/app/api/createTeamApi";
+import {addSkillsApi} from "@/app/api/addSkillsApi";
+import {addWorkExperienceApi} from "@/app/api/addWorkExperienceApi";
+import {getTeamLeaderApi} from "@/app/api/getTeamLeaderApi";
+import {getAllTeamApi} from "@/app/api/getAllTeamApi";
+import {addMemebersApi} from "@/app/api/addMembersApi";
+import {getTeamListApi} from "@/app/api/getTeamListApi";
+import {getTeamMembersApi} from "@/app/api/getTeamMembersApi";
+import {teamUpdateApi} from "@/app/api/teamUpdateApi";
+import {getTeamMemberApi} from "@/app/api/getTeamMemberApi";
 
 const BASE_URL = 'http://127.0.0.1:8000';
 const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
@@ -24,11 +34,16 @@ const initialState = {
     activeUsers: 0,
     activeUserPtg: 0,
     userProfile: [],
+    teamLeader: [],
+    allTeams: [],
+    teamsList: [],
+    teamMembers: [],
+    singleTeamMember: [],
     userEducation: 0,
     userExperience: 0,
     userSkill: 0,
     userAddress: 0,
-    userTeam:0,
+    userTeam: 0,
     userSingle: 0,
     loading: false,
     error: null,
@@ -230,6 +245,66 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(getTeamLeaderApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getTeamLeaderApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.teamLeader = action.payload;
+            })
+            .addCase(getTeamLeaderApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(getAllTeamApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getAllTeamApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.allTeams = action.payload;
+            })
+            .addCase(getAllTeamApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(getTeamListApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getTeamListApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.teamsList = action.payload;
+            })
+            .addCase(getTeamListApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(getTeamMembersApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getTeamMembersApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.teamMemebers = action.payload;
+            })
+            .addCase(getTeamMembersApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(getTeamMemberApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getTeamMemberApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.singleTeamMember = action.payload;
+            })
+            .addCase(getTeamMemberApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
             .addCase(deleteUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -242,6 +317,18 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(deleteMemeberApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteMemeberApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.teamMemebers = state.teamMemebers.filter(member => member.id !== action.payload);;
+            })
+            .addCase(deleteMemeberApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
             .addCase(createTeam.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -251,6 +338,56 @@ const authSlice = createSlice({
                 state.user = action.payload;
             })
             .addCase(createTeam.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(addSkillsApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(addSkillsApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userSkill.push(action.payload);
+            })
+            .addCase(addSkillsApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(addWorkExperienceApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(addWorkExperienceApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userExperience.push(action.payload);
+            })
+            .addCase(addWorkExperienceApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(teamUpdateApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(teamUpdateApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.allTeams = state.allTeams.map((team) =>
+                    team.id === action.payload.id ? action.payload : team
+                );
+            })
+            .addCase(teamUpdateApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(addMemebersApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(addMemebersApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+            })
+            .addCase(addMemebersApi.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });
