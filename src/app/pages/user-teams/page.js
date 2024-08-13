@@ -32,7 +32,7 @@ const Teams = () => {
             <div className="pb-6 pt-4"><h3>{userTeam?.number_of_user_teams} teams</h3></div>
             <div className="grid grid-cols-3 gap-4">
                 {userTeam?.user_teams?.map((team) => (
-                    <Card2 key={team.id} heading={`#${team.name}`} className="text-blue-600 text-lg font-thin" className1="!min-h-[20vh]">
+                    <Card2 key={team.id} heading={`#${team.name}`} className="text-blue-600 text-lg font-thin" className1="!min-h-[20vh]" showButton={false}>
                         <Content className="text-sm" label={team.description}>
                             <div className="flex justify-between items-center pt-2">
                                 <p>MEMBERS:</p>

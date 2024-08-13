@@ -10,36 +10,37 @@ import Swal from "sweetalert2";
 import Button from "@/app/components/button/button";
 import TextArea from "@/app/components/textarea";
 import {addWorkExperienceApi} from "@/app/api/addWorkExperienceApi";
+import {addEducationApi} from "@/app/api/addEducationApi";
 
-const workExperienceSchema = Yup.object().shape({
-    title: Yup.string().required('Title is required'),
-    company_name: Yup.string().required('Company name is required'),
-    description: Yup.string().required('Description is required'),
-    joining_date: Yup.date().required('Joining date is required'),
+const educationSchema = Yup.object().shape({
+    degree: Yup.string().required('Degree is required'),
+    total_marks: Yup.string().required('Total marks are required'),
+    obtain_marks: Yup.string().required('Obtain marks are required'),
+    start_date: Yup.date().required('Start date is required'),
     end_date: Yup.date().required('End date is required'),
-    remarks: Yup.string()
+    institute: Yup.string().required('Institute is required'),
 });
 
-const AddWorkExperienceModal = ({isOpen, onClose}) => {
+const AddEducationModal = ({isOpen, onClose}) => {
     const dispatch = useDispatch();
     const modalRef = useRef(null);
 
     const formik = useFormik({
-       initialValues: {
-            title: '',
-            company_name: '',
-            description: '',
-            joining_date: '',
+        initialValues: {
+            degree: '',
+            total_marks: '',
+            obtain_marks: '',
+            start_date: '',
             end_date: '',
-            remarks: ''
+            institute: ''
         },
         onSubmit: async (values) => {
-            const result = await dispatch(addWorkExperienceApi(values));
-            if (addWorkExperienceApi.fulfilled.match(result)) {
+            const result = await dispatch(addEducationApi(values));
+            if (addEducationApi.fulfilled.match(result)) {
                 formik.resetForm();  // Reset form fields
                 Swal.fire({
                     title: 'Success!',
-                    text: 'Add Work Experience successfully',
+                    text: 'Education added successfully',
                     icon: 'success',
                     confirmButtonText: 'OK'
                 }).then(() => {
@@ -54,7 +55,7 @@ const AddWorkExperienceModal = ({isOpen, onClose}) => {
                 });
             }
         },
-        validationSchema: workExperienceSchema,
+        validationSchema: educationSchema,
     });
 
     useEffect(() => {
@@ -82,65 +83,65 @@ const AddWorkExperienceModal = ({isOpen, onClose}) => {
                         <FiX/>
                     </button>
                 </div>
-                <h2 className="text-2xl mb-4">Add Experience</h2>
+                <h2 className="text-2xl mb-4">Add Education</h2>
 
                 <form onSubmit={formik.handleSubmit}>
                     <div className="mb-4">
                         <Input
                             type="text"
-                            name='title'
-                            label="Title"
+                            name="degree"
+                            label="Degree"
                             className="w-full px-3 py-2 border rounded"
-                            value={formik.values.title}
+                            value={formik.values.degree}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.title && formik.errors.title ? formik.errors.title : null}
+                            error={formik.touched.degree && formik.errors.degree ? formik.errors.degree : null}
                             required={true}
                         />
                     </div>
                     <div className="mb-4">
                         <Input
                             type="text"
-                            name='company_name'
-                            label="Company Name"
+                            name="total_marks"
+                            label="Total Marks"
                             className="w-full px-3 py-2 border rounded"
-                            value={formik.values.company_name}
+                            value={formik.values.total_marks}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.company_name && formik.errors.company_name ? formik.errors.company_name : null}
+                            error={formik.touched.total_marks && formik.errors.total_marks ? formik.errors.total_marks : null}
                             required={true}
                         />
                     </div>
                     <div className="mb-4">
-                        <TextArea
+                        <Input
                             type="text"
-                            name="description"
-                            label="Description"
+                            name="obtain_marks"
+                            label="Obtain Marks"
                             className="w-full px-3 py-2 border rounded"
-                            value={formik.values.description}
+                            value={formik.values.obtain_marks}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.description && formik.errors.description ? formik.errors.description : null}
+                            error={formik.touched.obtain_marks && formik.errors.obtain_marks ? formik.errors.obtain_marks : null}
                             required={true}
                         />
                     </div>
                     <div className="mb-4">
                         <Input
                             type="date"
-                            name='joining_date'
-                            label="Joining Date"
+                            name="start_date"
+                            label="Start Date"
                             className="w-full px-3 py-2 border rounded"
-                            value={formik.values.joining_date}
+                            value={formik.values.start_date}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.joining_date && formik.errors.joining_date ? formik.errors.joining_date : null}
+                            error={formik.touched.start_date && formik.errors.start_date ? formik.errors.start_date : null}
                             required={true}
                         />
                     </div>
                     <div className="mb-4">
                         <Input
                             type="date"
-                            name='end_date'
+                            name="end_date"
                             label="End Date"
                             className="w-full px-3 py-2 border rounded"
                             value={formik.values.end_date}
@@ -151,14 +152,15 @@ const AddWorkExperienceModal = ({isOpen, onClose}) => {
                         />
                     </div>
                     <div className="mb-4">
-                        <TextArea
-                            name="remarks"
-                            label="Remarks"
+                        <Input
+                            type="text"
+                            name="institute"
+                            label="Institute"
                             className="w-full px-3 py-2 border rounded"
-                            value={formik.values.remarks}
+                            value={formik.values.institute}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            error={formik.touched.remarks && formik.errors.remarks ? formik.errors.remarks : null}
+                            error={formik.touched.institute && formik.errors.institute ? formik.errors.institute : null}
                             required={true}
                         />
                     </div>
@@ -170,7 +172,7 @@ const AddWorkExperienceModal = ({isOpen, onClose}) => {
                         >
                             Cancel
                         </button>
-                        <Button text="Add Work Experience"/>
+                        <Button text="Add Education"/>
                     </div>
                 </form>
             </div>
@@ -178,4 +180,4 @@ const AddWorkExperienceModal = ({isOpen, onClose}) => {
     );
 };
 
-export default AddWorkExperienceModal;
+export default AddEducationModal;

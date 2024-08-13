@@ -19,6 +19,8 @@ import {getTeamListApi} from "@/app/api/getTeamListApi";
 import {getTeamMembersApi} from "@/app/api/getTeamMembersApi";
 import {teamUpdateApi} from "@/app/api/teamUpdateApi";
 import {getTeamMemberApi} from "@/app/api/getTeamMemberApi";
+import {addEducationApi} from "@/app/api/addEducationApi";
+import {addProfileImageApi} from "@/app/api/addProfileImageApi";
 
 const BASE_URL = 'http://127.0.0.1:8000';
 const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
@@ -27,7 +29,7 @@ const user = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('us
 const initialState = {
     user,
     token,
-    singleUser: null,
+    singleUser: 0,
     users: [],
     totalUsers: 0,
     totalTeams: 0,
@@ -353,6 +355,18 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(addEducationApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(addEducationApi.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userEducation.push(action.payload);
+            })
+            .addCase(addEducationApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
             .addCase(addWorkExperienceApi.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -385,9 +399,21 @@ const authSlice = createSlice({
             })
             .addCase(addMemebersApi.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload;
+                state.allTeams.push(action.payload);
             })
             .addCase(addMemebersApi.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(addProfileImageApi.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(addProfileImageApi.fulfilled, (state, action) => {
+                state.loading = false;
+                 state.singleUser = { ...state.singleUser, profileImage: action.payload };
+            })
+            .addCase(addProfileImageApi.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });

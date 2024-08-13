@@ -75,7 +75,7 @@ const CreateTeamModal = ({isOpen, onClose}) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div ref={modalRef} className="bg-white p-6 rounded shadow-lg">
+            <div ref={modalRef} className="bg-white p-6 rounded shadow-lg w-[30%]">
                 <div className='flex justify-end items-center'>
                     <button
                         type="button"

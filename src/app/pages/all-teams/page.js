@@ -1,34 +1,21 @@
 'use client';
-import React, {useEffect, useState} from "react";
-import Image from "next/image";
-import {useDispatch, useSelector} from "react-redux";
-import {getAllTeamApi} from "@/app/api/getAllTeamApi";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllTeamApi } from "@/app/api/getAllTeamApi";
+import dynamic from "next/dynamic";
 import MainDiv from "@/app/components/mainDiv/mainDiv";
-import TeamData from "@/app/components/TeamData/teamData";
-import AddMembersModal from "@/app/components/modal/addMembersModal";
+
+// Dynamically import TeamData component
+const TeamData = dynamic(() => import("@/app/components/TeamData/teamData"));
 
 const Teams = () => {
     const dispatch = useDispatch();
-    // const [isModalOpen, setIsModalOpen] = useState(false);
-    const {allTeams} = useSelector(state => state.auth);
-    // const [selectedTeamId, setSelectedTeamId] = useState(null);
+    const { allTeams } = useSelector(state => state.auth);
 
     useEffect(() => {
         dispatch(getAllTeamApi());
     }, [dispatch]);
- // const addMember = (teamId) => {
- //       setSelectedTeamId(teamId);
- //      setIsModalOpen(true);
- //        console.log(`Add member to team`);
- //    };
- // const closeModal = () => {
- //        setIsModalOpen(false);
- //    };
 
-    const removeMember = (teamId) => {
-        // Remove member API call logic here
-        console.log(`Remove member from team ${teamId}`);
-    };
     return (
         <MainDiv>
             <div className="flex justify-center">
@@ -39,14 +26,13 @@ const Teams = () => {
                             <h3>{allTeams?.length} teams</h3>
                         </div>
                         <div className="grid grid-cols-3 gap-4">
-                            <TeamData data={allTeams}/>
+                            {allTeams && <TeamData data={allTeams} />}
                         </div>
                     </div>
                 </div>
             </div>
-            {/*<AddMembersModal isOpen={isModalOpen} onClose={closeModal} selectedTeamId={selectedTeamId} />*/}
         </MainDiv>
-);
+    );
 };
 
 export default Teams;

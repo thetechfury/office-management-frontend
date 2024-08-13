@@ -1,149 +1,94 @@
 'use client';
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {getUserProfile} from '@/app/api/getUserProfileApi';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserProfile } from '@/app/api/getUserProfileApi';
+import dynamic from 'next/dynamic';
 import MainDiv from '@/app/components/mainDiv/mainDiv';
 import Image from "next/image";
-import profileImg from '@/app/assets/images/img9.jpg'
 import Link from "next/link";
-import {CiLocationOn, CiUser} from "react-icons/ci";
-import {MdGroup, MdLocationCity, MdOutlineAlternateEmail} from "react-icons/md";
-import {BsCalendar4Week} from "react-icons/bs";
-import {PiBriefcaseThin} from "react-icons/pi";
-import {IoPhonePortraitOutline} from "react-icons/io5";
-import {FaUserGroup} from "react-icons/fa6";
-import Teams from "@/app/pages/user-teams/page";
-import {getUserAddressApi} from "@/app/api/getUserAddressApi";
-import {getSingleUserApi} from "@/app/api/getSingleUserApi";
-import {usePathname, useRouter} from "next/navigation";
-import {getUserEducation} from "@/app/api/getUserEducationApi";
-import {getUserExperience} from "@/app/api/getUserExperienceApi";
-import Profile from "@/app/pages/users/userProfileData/profile";
-import Skills from "@/app/pages/users/userProfileData/skills";
-import Education from "@/app/pages/users/userProfileData/education";
-import WorkExperience from "@/app/pages/users/userProfileData/workExperience";
+import { CiLocationOn } from "react-icons/ci";
+import { MdLocationCity, MdOutlineCreate } from "react-icons/md";
+import { BsCalendar4Week } from "react-icons/bs";
+import { getUserAddressApi } from '@/app/api/getUserAddressApi';
+import { getSingleUserApi } from '@/app/api/getSingleUserApi';
+import { usePathname, useRouter } from "next/navigation";
+import { getUserEducation } from "@/app/api/getUserEducationApi";
+import { getUserExperience } from "@/app/api/getUserExperienceApi";
+import Swal from "sweetalert2";
+import { addProfileImageApi } from "@/app/api/addProfileImageApi";
 
+// Dynamically import components
+const Profile = dynamic(() => import("@/app/pages/users/userProfileData/profile"));
+const Skills = dynamic(() => import("@/app/pages/users/userProfileData/skills"));
+const Education = dynamic(() => import("@/app/pages/users/userProfileData/education"));
+const WorkExperience = dynamic(() => import("@/app/pages/users/userProfileData/workExperience"));
+const Teams = dynamic(() => import("@/app/pages/user-teams/page"));
+const AddImageModal = dynamic(() => import("@/app/components/modal/addImageModal"));
+
+const BASE_URL = 'http://127.0.0.1:8000';
 
 const UserProfileDetail = () => {
     const dispatch = useDispatch();
-    const userProfile = useSelector((state) => state.auth.userProfile);
-    const {userAddress, userSingle, user, userEducation, userExperience, singleUser} = useSelector(state => state.auth)
+    const { userAddress, user, singleUser,userSingle,userProfile } = useSelector(state => state.auth);
     const [activeTab, setActiveTab] = useState('profile');
     const router = useRouter();
     const userIdFromStorage = localStorage.getItem('userId');
-    const currentUserId = singleUser?.id;
     const currentPage = usePathname();
-    const id = currentPage === '/pages/user_profile' ? currentUserId : userIdFromStorage;
+    const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+
+    const id = currentPage === '/pages/user_profile' ? singleUser?.id : userIdFromStorage;
 
     useEffect(() => {
         if (!user) {
             setTimeout(() => {
-                router.push('../../../signin'); // Redirect to signin if not logged in
+                router.push('../../../signin');
             }, 100);
         }
     }, [user, router]);
-    const handleTabChange = (tab) => {
-        setActiveTab(tab);
-    };
 
     useEffect(() => {
         if (id) {
             dispatch(getUserProfile(id));
-        }
-    }, [id, dispatch]);
-    useEffect(() => {
-        if (id) {
             dispatch(getUserAddressApi(id));
-        }
-    }, [id, dispatch]);
-
-    useEffect(() => {
-        if (id) {
             dispatch(getSingleUserApi(id));
-        }
-    }, [id, dispatch]);
-    useEffect(() => {
-        if (id) {
             dispatch(getUserEducation(id));
-        }
-    }, [id, dispatch]);
-    useEffect(() => {
-        if (id) {
             dispatch(getUserExperience(id));
         }
     }, [id, dispatch]);
 
-    const card2Props = {
-        heading: 'Profile',
-        lable1: 'About',
-        lable2: 'Contacts',
-        lable3: 'Teams',
-        icon: <CiUser/>,
-        icon2: <PiBriefcaseThin/>,
-        icon3: <MdOutlineAlternateEmail/>,
-        icon4: <IoPhonePortraitOutline/>,
-        icon5: <MdGroup/>,
-        icon6: <PiBriefcaseThin/>,
-        title: userSingle.full_name,
-        title2: userSingle.role,
-        title3: userSingle.email,
-        title4: userProfile.phone,
-        title5: 'Member of 7 user-teams',
-        title6: 'Working on 8 projects',
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
     };
-    const card4Props = {
-        heading: 'Skills',
-        lable1: 'About',
-        lable2: 'Contacts',
-        lable3: 'Teams',
-        icon: <CiUser/>,
-        icon2: <PiBriefcaseThin/>,
-        icon3: <MdOutlineAlternateEmail/>,
-        icon4: <IoPhonePortraitOutline/>,
-        icon5: <MdGroup/>,
-        icon6: <PiBriefcaseThin/>,
-        title: userSingle.full_name,
-        title2: userSingle.role,
-        title3: userSingle.email,
-        title4: userProfile.phone,
-        title5: 'Member of 7 user-teams',
-        title6: 'Working on 8 projects',
+
+    const openImageModal = () => {
+        setIsImageModalOpen(true);
     };
-    const card5Props = {
-        heading: 'Work experience',
-        lable1: 'About',
-        lable2: 'Contacts',
-        lable3: 'Teams',
-        icon: <CiUser/>,
-        icon2: <PiBriefcaseThin/>,
-        icon3: <MdOutlineAlternateEmail/>,
-        icon4: <IoPhonePortraitOutline/>,
-        icon5: <MdGroup/>,
-        icon6: <PiBriefcaseThin/>,
-        title: userSingle.full_name,
-        title2: userSingle.role,
-        title3: userSingle.email,
-        title4: userProfile.phone,
-        title5: 'Member of 7 user-teams',
-        title6: 'Working on 8 projects',
+
+    const closeImageModal = () => {
+        setIsImageModalOpen(false);
     };
-    const card3Props = {
-        heading: 'Education',
-        icon: <FaUserGroup/>,
-        icon2: <FaUserGroup/>,
-        icon3: <FaUserGroup/>,
-        icon4: <FaUserGroup/>,
-        icon5: <FaUserGroup/>,
-        title: '#digitalmarketing',
-        title2: '#ethereum',
-        title3: '#conference',
-        title4: '#supportteam',
-        title5: '#invoice',
-        description: '8 members',
-        description2: '14 members',
-        description3: '3 members',
-        description4: '3 members',
-        description5: '3 members',
+
+    const handleImageUpload = async (formData) => {
+        try {
+            const response = await dispatch(addProfileImageApi(formData));
+            if (response.ok) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Image uploaded successfully.',
+                    icon: 'success',
+                });
+                closeImageModal();
+            } else {
+                throw new Error('Failed to upload image');
+            }
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Failed to upload the image.',
+                icon: 'error',
+            });
+            closeImageModal();
+        }
     };
 
     return (
@@ -153,42 +98,40 @@ const UserProfileDetail = () => {
                     <div className="lg:w-10/12">
                         <div className="bg-profile-image bg-cover top-0 left-0 right-0 h-[10rem] rounded-lg"></div>
                         <div className="text-center mb-5">
-
-                            <div
-                                className="relative inline-block w-32 h-32 rounded-full border-4 border-white bg-white mt-[-6.3rem]">
+                            <div className="relative inline-block w-32 h-32 rounded-full border-4 border-white bg-white mt-[-6.3rem]">
                                 <Image className="w-full h-full rounded-full object-cover"
-                                       src={profileImg} alt="Image Description"/>
-                                <span
-                                    className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
+                                    src={userProfile?.image ? `${BASE_URL}${userProfile.image}` : '/default-avatar.jpg'}
+                                    width={100}
+                                    height={100}
+                                    alt="Image Description"
+                                />
+                                <button
+                                    className="absolute bottom-0 right-0 w-4 h-4 border-2 border-inherite"
+                                    onClick={openImageModal}><MdOutlineCreate className="mr-2" />
+                                </button>
                             </div>
-
-                            <h1 className="text-2xl font-semibold mt-4">{userSingle?.full_name}
-                                <i className="tio-verified text-primary ml-1" data-toggle="tooltip" data-placement="top"
-                                   title="Top endorsed"></i>
+                            <h1 className="text-2xl font-semibold mt-4">
+                                {userSingle?.full_name}
+                                <i className="tio-verified text-primary ml-1" title="Top endorsed"></i>
                             </h1>
-
-
                             <ul className="flex justify-center space-x-4 mt-2">
-
                                 <li className="flex items-center">
-                                    <MdLocationCity className="tio-city mr-1"/>
+                                    <MdLocationCity className="tio-city mr-1" />
                                     <span>{userAddress?.city}</span>
                                 </li>
                                 <li className="flex items-center">
-                                    <CiLocationOn className="tio-poi-outlined mr-1"/>
-                                    <Link href="#"
-                                          className="hover:text-blue-600 text-blue-600 ml-1">{userAddress?.state},{userAddress?.country}</Link>
+                                    <CiLocationOn className="tio-poi-outlined mr-1" />
+                                    <Link href="#" className="hover:text-blue-600 text-blue-600 ml-1">
+                                        {userAddress?.state}, {userAddress?.country}
+                                    </Link>
                                 </li>
                                 <li className="flex items-center">
-                                    <BsCalendar4Week className="tio-date-range mr-1"/>
-                                    <span>Joined date : {userSingle?.date_joined}</span>
+                                    <BsCalendar4Week className="tio-date-range mr-1" />
+                                    <span>Joined date: {singleUser?.date_joined}</span>
                                 </li>
-
-
                             </ul>
                         </div>
                         <div className="relative mb-5">
-
                             <ul className="flex space-x-4 border-b border-gray-200">
                                 <li>
                                     <button
@@ -210,18 +153,19 @@ const UserProfileDetail = () => {
                         </div>
                         {activeTab === 'profile' && (
                             <div className="grid grid-cols-2 gap-4">
-                                <Profile/>
-                                <Skills/>
-                                <Education/>
-                                <WorkExperience/>
-                            </div>)}
-                        {activeTab === 'user-teams' && <Teams/>}
+                                <Profile />
+                                <Skills />
+                                <Education />
+                                <WorkExperience />
+                            </div>
+                        )}
+                        {activeTab === 'user-teams' && <Teams />}
                     </div>
                 </div>
+                <AddImageModal isOpen={isImageModalOpen} onClose={closeImageModal} onImageUpload={handleImageUpload} />
             </div>
-        </MainDiv>);
+        </MainDiv>
+    );
 };
 
 export default UserProfileDetail;
-
-
