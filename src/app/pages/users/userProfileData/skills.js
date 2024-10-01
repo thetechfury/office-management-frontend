@@ -1,18 +1,23 @@
 import Card2 from "@/app/components/card/card2";
-import {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import Content from "@/app/components/card/content";
 import {getUserSkill} from "@/app/api/getUserSkillsApi";
-import {FaConnectdevelop} from "react-icons/fa";
+import {FaConnectdevelop, FaTrash} from "react-icons/fa";
 import {GiLevelEndFlag} from "react-icons/gi";
 import Message from "@/app/components/message/message";
 import {usePathname} from "next/navigation";
-import AddSkillsModal from "@/app/components/modal/addSkillsModal";
+import {MdOutlineCreate} from "react-icons/md";
+import dynamic from "next/dynamic";
 
+const AddSkillsModal = dynamic(() => import("@/app/components/modal/addSkillsModal"), {ssr: false});
+const EditSkillsModal = dynamic(() => import("@/app/components/modal/editSkillsModal"), {ssr: false});
 const Skills = () => {
     const dispatch = useDispatch();
     const {userSkill, singleUser} = useSelector(state => state.auth)
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [selectSkill, setSelectSkill] = useState(null)
     const userIdFromStorage = localStorage.getItem('userId');
     const currentUserId = singleUser?.id;
     const currentPage = usePathname();
@@ -29,6 +34,14 @@ const Skills = () => {
     const openModal = () => {
         setIsModalOpen(true);
     };
+    const closeEditModal = () => {
+        setOpenEditModal(false);
+    };
+    const openEditSkillModal = useCallback((skill) => {
+        setSelectSkill(skill);
+        setOpenEditModal(true);
+
+    }, []);
     return (
         <>
             <Card2 heading='Skills' text="Add Skills" onclick={openModal}>
@@ -48,12 +61,21 @@ const Skills = () => {
                                 <div className='w-84'>
                                     <div className="text-gray-500">{skill.description} </div>
                                 </div>
+                                <div className="flex h-8">
+                                    <button
+                                        className=" flex items-center px-2 bg-white hover:text-blue-600 hover:border-blue-600 border border-gray-300 rounded text-gray-700 flex items-center"
+                                        onClick={() => openEditSkillModal(skill)}>
+                                        <MdOutlineCreate/>
+                                    </button>
+                                </div>
+
                             </li>
                         ))}
                     </Content>) : (
                     <Message>No Skills data available</Message>)}
             </Card2>
-            <AddSkillsModal isOpen={isModalOpen} onClose={closeModal} />
+            <AddSkillsModal isOpen={isModalOpen} onClose={closeModal}/>
+            <EditSkillsModal isOpen={openEditModal} onClose={closeEditModal} skillData={selectSkill}/>
         </>
     )
 };

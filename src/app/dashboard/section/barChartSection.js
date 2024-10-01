@@ -1,4 +1,4 @@
-import {FaDownload, FaEllipsisV, FaExternalLinkAlt, FaShareAlt} from "react-icons/fa";
+import {FaDownload, FaEllipsisV, FaExternalLinkAlt} from "react-icons/fa";
 import Link from "next/link";
 import {HiArrowTrendingUp} from "react-icons/hi2";
 import {TiMessages} from "react-icons/ti";

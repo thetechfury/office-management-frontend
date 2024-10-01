@@ -1,13 +1,10 @@
 'use client';
 
 import React, {useEffect} from 'react';
-import Image from 'next/image';
-import logo from '../assets/svg/logo.svg';
 import Input from "@/app/components/input";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {useDispatch, useSelector} from 'react-redux';
-// import {login, signup} from '../slices/authSlice';
 import MainDiv from "@/app/components/mainDiv/mainDiv";
 import {useRouter} from 'next/navigation'
 import {signup} from "@/app/api/authentication";

@@ -2,14 +2,11 @@
 import React, {useEffect, useRef} from 'react';
 import Input from "@/app/components/input";
 import {useFormik} from "formik";
-import {createTeam} from "@/app/api/createTeamApi";
 import * as Yup from "yup";
 import {useDispatch} from "react-redux";
 import {FiX} from "react-icons/fi";
 import Swal from "sweetalert2";
 import Button from "@/app/components/button/button";
-import TextArea from "@/app/components/textarea";
-import {addWorkExperienceApi} from "@/app/api/addWorkExperienceApi";
 import {addEducationApi} from "@/app/api/addEducationApi";
 
 const educationSchema = Yup.object().shape({

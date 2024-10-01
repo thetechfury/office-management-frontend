@@ -3,7 +3,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { FiX } from "react-icons/fi";
 import Swal from "sweetalert2";
-import { deleteUser } from "@/app/api/deleteUserApi";
 import { getTeamMemberApi } from "@/app/api/getTeamMemberApi";
 import { FaSearch, FaTrash } from "react-icons/fa";
 import Link from "next/link";

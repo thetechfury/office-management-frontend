@@ -7,7 +7,6 @@ import Input from "@/app/components/input";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {useDispatch, useSelector} from 'react-redux';
-// import {login} from '../slices/authSlice';
 import {useRouter} from 'next/navigation'
 import {login} from "@/app/api/authentication";
 
@@ -33,9 +32,6 @@ export default function SignIn() {
         },
         validationSchema: schema,
     });
-    useEffect( ()=>{
-        import('../dashboard/page')
-    },[])
 
     return (
         <div>

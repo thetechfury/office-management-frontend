@@ -18,12 +18,12 @@ import Swal from "sweetalert2";
 import { addProfileImageApi } from "@/app/api/addProfileImageApi";
 
 // Dynamically import components
-const Profile = dynamic(() => import("@/app/pages/users/userProfileData/profile"));
-const Skills = dynamic(() => import("@/app/pages/users/userProfileData/skills"));
-const Education = dynamic(() => import("@/app/pages/users/userProfileData/education"));
-const WorkExperience = dynamic(() => import("@/app/pages/users/userProfileData/workExperience"));
-const Teams = dynamic(() => import("@/app/pages/user-teams/page"));
-const AddImageModal = dynamic(() => import("@/app/components/modal/addImageModal"));
+const Profile = dynamic(() => import("@/app/pages/users/userProfileData/profile"),{ ssr: false });
+const Skills = dynamic(() => import("@/app/pages/users/userProfileData/skills"),{ ssr: false });
+const Education = dynamic(() => import("@/app/pages/users/userProfileData/education"),{ ssr: false });
+const WorkExperience = dynamic(() => import("@/app/pages/users/userProfileData/workExperience"),{ ssr: false });
+const Teams = dynamic(() => import("@/app/pages/user-teams/page"),{ ssr: false });
+const AddImageModal = dynamic(() => import("@/app/components/modal/addImageModal"),{ ssr: false });
 
 const BASE_URL = 'http://127.0.0.1:8000';
 

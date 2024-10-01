@@ -1,11 +1,12 @@
 'use client';
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Image from "next/image";
 import Card2 from "@/app/components/card/card2";
 import Content from "@/app/components/card/content";
 import {useDispatch, useSelector} from "react-redux";
 import {usePathname} from "next/navigation";
 import {getUserTeamApi} from "@/app/api/getUserTeamApi";
+const BASE_URL = 'http://127.0.0.1:8000';
 
 const Teams = () => {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const Teams = () => {
     const id = currentPage === '/pages/user_profile' ? currentUserId : userIdFromStorage;
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== null) {
             setUserIdFromStorage(localStorage.getItem('userId'));
         }
     }, []);
@@ -39,13 +40,20 @@ const Teams = () => {
                                 <div className="flex px-2 py-1">
                                     {team.members.slice(0, 5).map((member) => (
                                         <span key={member.id} className="rounded-full w-6 h-6 p-[2px] bg-white relative ml-[-.5rem]">
+                                            {/*<Image*/}
+                                            {/*    src={member.image ? `${member.image}` : '/default-avatar.jpg'} // Add a default avatar if image is null*/}
+                                            {/*    alt={`Member ${member.user}`}*/}
+                                            {/*    className="rounded-full"*/}
+                                            {/*    width={24}*/}
+                                            {/*    height={24}*/}
+                                            {/*/>*/}
                                             <Image
-                                                src={member.image ? `${member.image}` : '/default-avatar.jpg'} // Add a default avatar if image is null
-                                                alt={`Member ${member.user}`}
-                                                className="rounded-full"
-                                                width={24}
-                                                height={24}
-                                            />
+                                            src={member.image ? `${BASE_URL}${member.image}` : '/default-avatar.jpg'}
+                                            alt={`Member ${member.user}`}
+                                            className="rounded-full"
+                                            width={24}
+                                            height={24}
+                                        />
                                         </span>
                                     ))}
                                     {team.members.length > 5 && (

@@ -4,7 +4,6 @@ import Input from "@/app/components/input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { getTeamLeaderApi } from "@/app/api/getTeamLeaderApi";
 import CustomDropdown from "@/app/components/CustomDropdown/CustomDropdown";
 import { FiX } from "react-icons/fi";
 import Swal from "sweetalert2";
@@ -14,7 +13,6 @@ import { teamUpdateApi } from "@/app/api/teamUpdateApi";
 const schema = Yup.object().shape({
     name: Yup.string().required('Team Name is required'),
     description: Yup.string().required('Description is required').min(20, 'Description must be at least 20 characters'),
-    // leader: Yup.string().required('Team Leader is required'),
 });
 
 const EditTeamModal = ({ isOpen, onClose, teamData }) => {
@@ -27,7 +25,6 @@ const EditTeamModal = ({ isOpen, onClose, teamData }) => {
         initialValues: {
             name: teamData ? teamData.name : "",
             description: teamData ? teamData.description : "",
-            // leader: "",
         },
         enableReinitialize: true, // Enable reinitializing the form with new initialValues
         onSubmit: async (values) => {

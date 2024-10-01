@@ -58,7 +58,7 @@ h5 {
     background-image: url("assets/svg/abstract-bg-4.svg");
 }
 .bg-profile-image{
-    background-image: url("assets/images/img1.jpg");
+    background-image: url("assets/images/profile.jpg");
 }
 select:focus {
     border: none!important;
@@ -93,4 +93,7 @@ select:focus {
      --tw-ring-shadow: none!important;
      box-shadow: none!important;
      border-color: rgba(231, 234, 243, .7)!important;
+}
+button[aria-expanded="true"]{
+    color: #377dff !important;
 }

@@ -1,11 +1,10 @@
-import {FaCheck, FaRegBell, FaSearch, FaTimes, FaTrash} from 'react-icons/fa';
+import {FaCheck, FaSearch, FaTimes, FaTrash} from 'react-icons/fa';
 import {useEffect, useState} from "react";
 import Image from "next/image";
 import userImg from "@/app/assets/images/img6.jpg"
 import {useDispatch, useSelector} from "react-redux";
-import {getUser} from "@/app/slices/authSlice";
+import {getUser} from "@/slices/authSlice";
 import Link from "next/link";
-// import {getUser} from "@/app/api/getUserApi";
 import {deleteUser} from "@/app/api/deleteUserApi";
 
 const UserSection = () => {
@@ -260,7 +259,6 @@ const UserSection = () => {
                                 <td className="px-8 py-2">{user.email}</td>
                                 <td className="px-8 py-2">{user.date_joined}</td>
                                 <td className="px-8 py-2">{user.id}</td>
-                                <Link href='../../pages/usersprofiles/'></Link>
                             </tr>
                         ))}
                         </tbody>

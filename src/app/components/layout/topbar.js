@@ -2,15 +2,16 @@
 import {FaRegBell,} from "react-icons/fa";
 import {useEffect, useRef, useState} from "react";
 import Image from "next/image";
-import profileImg from "../../assets/images/img6.jpg"
-import {useDispatch} from "react-redux";
-import {logout} from "@/app/slices/authSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "@/slices/authSlice";
 import {useRouter} from "next/navigation";
 import logo from "@/app/assets/svg/logo.svg";
 
+const BASE_URL = 'http://127.0.0.1:8000';
 
 const Topbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const {userSingle, singleUser, userAddress} = useSelector(state => state.auth);
     const dropdownRef = useRef(null);
     const router = useRouter();
     const dispatch = useDispatch();
@@ -58,7 +59,10 @@ const Topbar = () => {
                                 onClick={toggleDropdown}
                             >
                                 <div className="avatar avatar-sm avatar-circle">
-                                    <Image className="avatar-img w-8 h-8 rounded-full" src={profileImg}
+                                    <Image className="avatar-img w-8 h-8 rounded-full"
+                                           src={singleUser.image ? `${BASE_URL}${singleUser.image}` : '/default-avatar.jpg'}
+                                           width={8}
+                                           height={8}
                                            alt="profile image"/>
                                     <span className="avatar-status avatar-sm-status avatar-status-success"></span>
                                 </div>
@@ -71,13 +75,17 @@ const Topbar = () => {
                                     <div className="px-4 py-3">
                                         <div className="flex items-center">
                                             <div className="mr-2">
-                                                <Image className="avatar-img w-8 h-8 rounded-full" src={profileImg}
+                                                <Image className="avatar-img w-8 h-8 rounded-full"
+                                                       src={singleUser.image ? `${BASE_URL}${singleUser.image}` : '/default-avatar.jpg'}
+                                                       width={8}
+                                                       height={8}
                                                        alt="profile image"/>
                                             </div>
                                             <div>
-                                                <span className="block font-bold text-gray-900 dark:text-white">Mark Williams</span>
                                                 <span
-                                                    className="block text-gray-500 dark:text-gray-300">mark@example.com</span>
+                                                    className="block font-bold text-gray-900 dark:text-white">{singleUser?.full_name}</span>
+                                                <span
+                                                    className="block text-gray-500 dark:text-gray-300">{userSingle?.email}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -87,8 +95,8 @@ const Topbar = () => {
                                     <div className="border-t border-gray-200 dark:border-gray-600"></div>
                                     <button
                                         onClick={handleLogout}
-                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600">Sign
-                                        out
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600">
+                                        Sign Out
                                     </button>
                                 </div>
                             )}

@@ -9,10 +9,7 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      const timer = setTimeout(() => {
         setShowNavbar(true);
-      }, 2000); // 3000 milliseconds = 3 seconds
-      return () => clearTimeout(timer);
     }
   }, [user]);
 

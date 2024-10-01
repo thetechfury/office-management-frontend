@@ -2,7 +2,7 @@ import React from 'react';
 
 const Input = ({ type, name, label, placeholder, value, onChange, onBlur, required, error }) => {
   return (
-    <div className="mb-4">
+    <div className="mb-4 w-full mr-2">
       <label className="block text-gray-700 mb-2" htmlFor={name}>{label}</label>
       <input
         type={type}

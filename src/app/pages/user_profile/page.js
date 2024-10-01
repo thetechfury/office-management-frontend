@@ -9,8 +9,6 @@ import Link from 'next/link';
 import { CiLocationOn } from 'react-icons/ci';
 import { MdLocationCity, MdOutlineCreate } from 'react-icons/md';
 import { BsCalendar4Week } from 'react-icons/bs';
-import Swal from "sweetalert2";
-import { addProfileImageApi } from "@/app/api/addProfileImageApi";
 import { getUserAddressApi } from '@/app/api/getUserAddressApi';
 import { useRouter } from 'next/navigation';
 
@@ -30,38 +28,15 @@ const UserProfile = () => {
     const [activeTab, setActiveTab] = useState('profile');
     const router = useRouter();
     const id = singleUser?.id;
-    const [isHydrated, setIsHydrated] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-
     const handleTabChange = (tab) => setActiveTab(tab);
-
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const openImageModal = () => setIsImageModalOpen(true);
     const closeImageModal = () => setIsImageModalOpen(false);
 
-    const handleImageUpload = async (formData) => {
-        try {
-            const response = await dispatch(addProfileImageApi(formData));
-            if (response.ok) {
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Image uploaded successfully.',
-                    icon: 'success',
-                });
-                closeImageModal();
-            } else {
-                throw new Error('Failed to upload image');
-            }
-        } catch (error) {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Failed to upload the image.',
-                icon: 'error',
-            });
-        }
-    };
+
 
     useEffect(() => {
         if (!user) {
@@ -75,15 +50,6 @@ const UserProfile = () => {
             dispatch(getUserAddressApi(id));
         }
     }, [id, dispatch]);
-
-    useEffect(() => {
-        setIsHydrated(true);
-    }, []);
-
-    if (!isHydrated) {
-        return null;
-    }
-
     return (
         <MainDiv>
             <div className="container mx-auto px-4">
@@ -123,7 +89,8 @@ const UserProfile = () => {
                         </div>
 
                         <div className="relative mb-5">
-                            <ul className="flex space-x-4 border-b border-gray-200">
+                            <ul className="flex space-x-4 justify-between border-b border-gray-200">
+                                <div className='flex'>
                                 <li>
                                     <button
                                         className={`px-4 py-2 ${activeTab === 'profile' ? 'border-b-2 border-blue-500 text-blue-500' : 'hover:text-blue-600'}`}
@@ -139,7 +106,7 @@ const UserProfile = () => {
                                     >
                                         Teams
                                     </button>
-                                </li>
+                                </li></div>
                                 {activeTab === 'user-teams' && (
                                     <li className="ml-auto flex items-center space-x-2 pb-2">
                                         <button
@@ -166,7 +133,7 @@ const UserProfile = () => {
                 </div>
             </div>
             <CreateTeamModal isOpen={isModalOpen} onClose={closeModal} />
-            <AddImageModal isOpen={isImageModalOpen} onClose={closeImageModal} onImageUpload={handleImageUpload} />
+            <AddImageModal isOpen={isImageModalOpen} onClose={closeImageModal}/>
         </MainDiv>
     );
 };

@@ -1,10 +1,10 @@
 import Card2 from "@/app/components/card/card2";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getUserEducation} from "@/app/api/getUserEducationApi";
 import {useDispatch, useSelector} from "react-redux";
 import Content from "@/app/components/card/content";
 import {BiSolidInstitution} from "react-icons/bi";
-import {MdRotate90DegreesCw} from "react-icons/md";
+import {MdOutlineCreate, MdRotate90DegreesCw} from "react-icons/md";
 import Message from "@/app/components/message/message";
 import {usePathname} from "next/navigation";
 import AddEducationModal from "@/app/components/modal/addEducationModal";
@@ -53,13 +53,20 @@ const Education = () => {
                                     {education.start_date} - {education.end_date}
                                     <div
                                         className="text-gray-500">{education.obtain_marks} / {education.total_marks}</div>
+                                    <div className="flex h-8 justify-end mb-2">
+                                        <button
+                                            className=" flex items-center px-2 bg-white hover:text-blue-600 hover:border-blue-600 border border-gray-300 rounded text-gray-700 flex items-center"
+                                            onClick={() => openEditSkillModal(skill)}>
+                                            <MdOutlineCreate/>
+                                        </button>
+                                    </div>
                                 </div>
                             </li>
                         ))}
                     </Content>) : (
                     <Message>No education data available</Message>)}
             </Card2>
-            <AddEducationModal isOpen={isModalOpen} onClose={closeModal} />
+            <AddEducationModal isOpen={isModalOpen} onClose={closeModal}/>
         </>
     )
 };

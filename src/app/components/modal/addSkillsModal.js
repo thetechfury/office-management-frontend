@@ -2,11 +2,8 @@
 import React, {useEffect, useState, useRef} from 'react';
 import Input from "@/app/components/input";
 import {useFormik} from "formik";
-import {createTeam} from "@/app/api/createTeamApi";
 import * as Yup from "yup";
-import {useDispatch, useSelector} from "react-redux";
-import {getTeamLeaderApi} from "@/app/api/getTeamLeaderApi";
-import CustomDropdown from "@/app/components/CustomDropdown/CustomDropdown";
+import {useDispatch} from "react-redux";
 import {FiX} from "react-icons/fi";
 import Swal from "sweetalert2";
 import {addSkillsApi} from "@/app/api/addSkillsApi";
@@ -21,8 +18,6 @@ const schema = Yup.object().shape({
 
 const AddSkillsModal = ({isOpen, onClose}) => {
     const dispatch = useDispatch();
-    const {teamLeader} = useSelector(state => state.auth);
-    const [leaders, setLeaders] = useState([]);
     const modalRef = useRef(null);
 
     const formik = useFormik({

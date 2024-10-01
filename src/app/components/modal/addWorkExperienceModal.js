@@ -2,7 +2,6 @@
 import React, {useEffect, useRef} from 'react';
 import Input from "@/app/components/input";
 import {useFormik} from "formik";
-import {createTeam} from "@/app/api/createTeamApi";
 import * as Yup from "yup";
 import {useDispatch} from "react-redux";
 import {FiX} from "react-icons/fi";

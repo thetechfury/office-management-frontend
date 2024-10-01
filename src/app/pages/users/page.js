@@ -1,17 +1,19 @@
 'use client'
-import LineChartSection from "@/app/dashboard/section/lineChartSection";
 import MainDiv from "@/app/components/mainDiv/mainDiv";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getUser} from "@/app/slices/authSlice";
+import {getUser} from "@/slices/authSlice";
 import {deleteUser} from "@/app/api/deleteUserApi";
 import {FaCheck, FaSearch, FaTimes, FaTrash} from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
 import userImg from "@/app/assets/images/img6.jpg";
 import {useRouter} from 'next/navigation'
+import dynamic from "next/dynamic";
+import TableCard from "@/app/components/card/tableCard";
+const LineChartSection = dynamic(() => import("@/app/dashboard/section/lineChartSection"),{ ssr: false });
 
-const AllUser = () => {
+const Users = () => {
     const [selectedStatus, setSelectedStatus] = useState('');
     const [selectSignUp, setSelectSignUp] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
@@ -31,10 +33,6 @@ const AllUser = () => {
             router.push('/'); // Redirect to signin if not logged in
         }
     }, [user]);
-    useEffect(()=>{
-        import('../user_profile/page')
-    })
-
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -105,10 +103,10 @@ const AllUser = () => {
 
     return (
         <MainDiv>
-            <LineChartSection/>
-
+            {/*<LineChartSection/>*/}
             <div className="px-4 sm:px-6 lg:px-8 pb-4">
-                <div className="card shadow-md hover:shadow-lg h-full border border-inherit rounded-xl py-4">
+                <div className="bg-profile-image bg-cover top-0 left-0 right-0 h-[10rem] rounded-lg"></div>
+                <TableCard>
                     {/* Header */}
                     <div className="pb-4 px-4">
                         <div className="flex flex-wrap justify-between items-center flex-grow-1">
@@ -141,7 +139,7 @@ const AllUser = () => {
                                                 className=""
                                                 value={selectedStatus}
                                                 onChange={(e) => setSelectedStatus(e.target.value)}
-                                                style={{ border: "none" }}
+                                                style={{border: "none"}}
                                             >
                                                 <option value="">All</option>
                                                 <option value="true">Active</option>
@@ -157,7 +155,7 @@ const AllUser = () => {
                                             <select
                                                 value={selectSignUp}
                                                 onChange={(e) => setSelectSignUp(e.target.value)}
-                                                style={{ border: "none" }}
+                                                style={{border: "none"}}
                                             >
                                                 <option value="">All</option>
                                                 <option value="2023">2023</option>
@@ -296,7 +294,8 @@ const AllUser = () => {
                                     className="d-flex justify-content-center justify-content-sm-start align-items-center">
                                     <span className="mr-2">Showing:</span>
                                     {/* Select */}
-                                    <select value={usersPerPage} onChange={handleUsersPerPageChange} style={{ border: "none" }}>
+                                    <select value={usersPerPage} onChange={handleUsersPerPageChange}
+                                            style={{border: "none"}}>
                                         <option value={usersPerPage}>{usersPerPage}</option>
                                         <option value={6}>6</option>
                                         <option value={8}>8</option>
@@ -337,9 +336,9 @@ const AllUser = () => {
 
                     </div>
                     {/* End Footer */}
-                </div>
+                </TableCard>
             </div>
         </MainDiv>
     )
 };
-export default AllUser;
+export default Users;
